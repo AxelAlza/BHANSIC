@@ -8,8 +8,6 @@
         
     });
 
-
     require '../config.php';
     require_once 'render.php';
-
     session_start();

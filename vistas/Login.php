@@ -10,16 +10,13 @@ require '../utils/autoloader.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
-    <title>Registrarse</title>
+    <title>Login</title>
 </head>
+
 <body>
     <div class="container">
-        <?php if (isset($parametros['exito']) && $parametros['exito'] == true) : ?>
-            <div style="color: #00FF00"> La persona se guardo con exito </div>
-        <?php endif; ?>
-
-        <?php if (isset($parametros['exito']) && $parametros['exito'] == false) : ?>
-            <div style="color: #FF0000"> Hubo un problema al guardar la persona </div>
+        <?php if(isset($parametros['exito']) && $parametros['exito'] == false): ?>
+        <div style="color: #FF0000"> Hubo un problema al autenticarse </div>
         <?php endif; ?>
         <form method="POST">
             <div class="mb-3">
@@ -30,15 +27,7 @@ require '../utils/autoloader.php';
                 <label for="ContraseñaUsuario" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="ContraseñaUsuario" id="ContraseñaUsuario">
             </div>
-            <div class="mb-3">
-                <label for="NombreUsuario" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="NombreUsuario" name="NombreUsuario">
-            </div>
-            <div class="mb-3">
-                <label for="ApellidoUsuario" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="ApellidoUsuario" name="ApellidoUsuario">
-            </div>
-            <button type="submit" class="btn btn-primary">Registrarse</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
 </body>

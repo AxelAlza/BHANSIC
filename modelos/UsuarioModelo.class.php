@@ -68,18 +68,19 @@ class UsuarioModelo extends Modelo
 
 
         if ($resultado) {
-            $comparacion = $this->compararPasswords($resultado['password']);
+            $comparacion = $this->compararPasswords($resultado['ContraseñaUsuario']);
             if ($comparacion) {
                 $this->asignarDatosDeUsuario($resultado);
             } else {
                 throw new Exception("Error al iniciar sesion");
             }
         } else throw new Exception("Error al iniciar sesion");
+
     }
 
     private function compararPasswords($passwordHasheado)
     {
-        return password_verify($this->password, $passwordHasheado);
+        return password_verify($this->ContraseñaUsuario, $passwordHasheado);
     }
 
 
