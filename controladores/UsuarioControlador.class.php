@@ -48,4 +48,9 @@ class UsuarioControlador
             $usuario->ContraseñaUsuario = "";
             $_SESSION['USER'] = $usuario;
     }
+
+    public static function CerrarSesion(){
+        session_destroy();
+        header("Location: /");
+    }
 }
