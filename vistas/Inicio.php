@@ -1,5 +1,6 @@
 <?php
 require '../utils/autoloader.php';
+$u = $_SESSION['USER'];
 ?>
 
 <!DOCTYPE html>
@@ -36,9 +37,18 @@ require '../utils/autoloader.php';
                 <li class="nav-item">
                     <a class="nav-link">Consultas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Desloguearse">Desloguearse</a>
+                </li>
             </ul>
         </div>
     </nav>
+    <div class="jumbotron">
+        <h1 class="display-4">Bienvenido</h1>
+        <p class="lead"></p>
+        <hr class="my-4">
+        <p><?=$u->NombreUsuario." ".$u->ApellidoUsuario?></p>
+    </div>
     <!--NavBar-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="static/js/bootstrap.bundle.min.js"></script>
