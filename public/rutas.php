@@ -10,7 +10,9 @@
                 header("Location: /Login");
             }
             break;
-
+        case '/Perfil';
+            cargarVista('PerfilUsuario');
+            break;
      
         case '/Registrarse':
             if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');  

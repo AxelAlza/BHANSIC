@@ -31,7 +31,7 @@ require '../utils/autoloader.php';
                     <a class="nav-link">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Perfil</a>
+                    <a class="nav-link" href="/Perfil">Perfil</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link">Consultas</a>
