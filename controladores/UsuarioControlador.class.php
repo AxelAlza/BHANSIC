@@ -7,11 +7,17 @@ class UsuarioControlador
 
     private static function GenerarUsuarioPorPost()
     {
-        $usuario = new UsuarioModelo();
+        $Tipo = $_POST['Tipo'];
+        if ($Tipo == '0') {
+            $usuario = new AlumnoModelo();
+        } else {
+            $usuario = new DocenteModelo();
+        }
         $usuario->CedulaUsuario = $_POST['CedulaUsuario'];
         $usuario->NombreUsuario = $_POST['NombreUsuario'];
         $usuario->ApellidoUsuario = $_POST['ApellidoUsuario'];
         $usuario->ContraseñaUsuario = $_POST['ContraseñaUsuario'];
+        $usuario->Tipo = $Tipo;
         return $usuario;
     }
 
@@ -19,7 +25,7 @@ class UsuarioControlador
     {
         try {
             $usuario = self::GenerarUsuarioPorPost();
-            $usuario->Guardar();
+            $usuario->Guardar(false);
             return generarHtml('Registrarse', ['exito' => true]);
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -34,22 +40,21 @@ class UsuarioControlador
             $usuario->Autenticar();
             self::CrearSesion($usuario);
             header("Location: /");
-           
         } catch (Exception $e) {
             error_log($e->getMessage());
             return generarHtml('Login', ['exito' => false]);
-            
         }
     }
 
-    private static function CrearSesion(UsuarioModelo $usuario)
+    private static function CrearSesion($usuario)
     {
         ob_start();
-            $usuario->ContraseñaUsuario = "";
-            $_SESSION['USER'] = $usuario;
+        $usuario->ContraseñaUsuario = "";
+        $_SESSION['USER'] = $usuario;
     }
 
-    public static function CerrarSesion(){
+    public static function CerrarSesion()
+    {
         session_destroy();
         header("Location: /");
     }

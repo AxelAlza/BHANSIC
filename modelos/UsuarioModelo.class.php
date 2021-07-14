@@ -1,7 +1,7 @@
 <?php
 require '../utils/autoloader.php';
 
-class UsuarioModelo extends Modelo
+abstract class UsuarioModelo extends Modelo
 {
     public $CedulaUsuario;
     public $NombreUsuario;
@@ -9,36 +9,51 @@ class UsuarioModelo extends Modelo
     public $ApellidoUsuario;
     public $FotoUsuario;
     public $AvatarUsuario;
+    public $Tipo;
 
-    public function Guardar()
+    public function Guardar(bool $modificar)
     {
-
-        $this->id ? $this->prepararUpdate() : $this->prepararInsert();
+        $modificar ? $this->prepararUpdate() : $this->prepararInsert();
         $this->sentencia->execute();
-
         if ($this->sentencia->error) {
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
 
+    public function Autenticar()
+    {
+        $this->sentencia->execute();
+        $resultado = $this->sentencia->get_result()->fetch_assoc();
+        if ($this->sentencia->error) {
+            throw new Exception("Error al obtener el usuario: " . $this->sentencia->error);
+        }
+        if ($resultado) {
+            $comparacion = $this->compararPasswords($resultado['ContraseñaUsuario']);
+            if ($comparacion) {
+                $this->asignarDatosDeUsuario($resultado);
+            } else {
+                throw new Exception("Error al iniciar sesion");
+            }
+        } else throw new Exception("Error al iniciar sesion");
+    }
+
     private function prepararUpdate()
     {
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "UPDATE Usuarios set CedulaUsuario = ?, NombreUsuario = ?, ContraseñaUsuario = ?, ApellidoUsuario = ?, FotoUsuario = ? , AvatarUsuario";
+        $sql = "UPDATE Usuarios set NombreUsuario = ?, ApellidoUsuario = ?, FotoUsuario = ? , AvatarUsuario = ? where CedulaUsuario = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_params(
-            "isssss",
-            $this->CedulaUsuario,
+            "ssssi",
             $this->NombreUsuario,
             $this->ApellidoUsuario,
-            $this->ContraseñaUsuario,
             $this->FotoUsuario,
-            $this->AvatarUsuario
+            $this->AvatarUsuario,
+            $this->CedulaUsuario
+
         );
     }
     private function prepararInsert()
     {
-       
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
         $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
@@ -52,46 +67,16 @@ class UsuarioModelo extends Modelo
             $this->AvatarUsuario
 
         );
-   
     }
 
-    public function Autenticar()
-    {
-        $this->prepararAutenticacion();
-        $this->sentencia->execute();
 
-        $resultado = $this->sentencia->get_result()->fetch_assoc();
-
-        if ($this->sentencia->error) {
-            throw new Exception("Error al obtener el usuario: " . $this->sentencia->error);
-        }
-
-
-        if ($resultado) {
-            $comparacion = $this->compararPasswords($resultado['ContraseñaUsuario']);
-            if ($comparacion) {
-                $this->asignarDatosDeUsuario($resultado);
-            } else {
-                throw new Exception("Error al iniciar sesion");
-            }
-        } else throw new Exception("Error al iniciar sesion");
-
-    }
-
-    private function compararPasswords($passwordHasheado)
+    public function compararPasswords($passwordHasheado)
     {
         return password_verify($this->ContraseñaUsuario, $passwordHasheado);
     }
 
 
-    private function prepararAutenticacion()
-    {
-        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Usuarios WHERE CedulaUsuario = ? ";
-        $this->sentencia = $this->conexion->prepare($sql);
-        $this->sentencia->bind_param("i", $this->CedulaUsuario);
-    }
-
-    private function asignarDatosDeUsuario($resultado)
+    public function asignarDatosDeUsuario($resultado)
     {
         $this->CedulaUsuario = $resultado['CedulaUsuario'];
         $this->NombreUsuario = $resultado['NombreUsuario'];
@@ -100,7 +85,7 @@ class UsuarioModelo extends Modelo
         $this->AvatarUsuario = $resultado['AvatarUsuario'];
     }
 
-    private function hashearPassword($password)
+    public function hashearPassword($password)
     {
         return password_hash($password, PASSWORD_DEFAULT);
     }

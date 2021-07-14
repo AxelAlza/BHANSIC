@@ -14,9 +14,13 @@ require '../utils/autoloader.php';
 </head>
 
 <body>
+
     <div class="container">
-        <?php if(isset($parametros['exito']) && $parametros['exito'] == false): ?>
-        <div style="color: #FF0000"> Hubo un problema al autenticarse </div>
+    <a href="/Registrarse">
+        <p>Registrarse</p>
+    </a>
+        <?php if (isset($parametros['exito']) && $parametros['exito'] == false) : ?>
+            <div style="color: #FF0000"> Hubo un problema al autenticarse </div>
         <?php endif; ?>
         <form method="POST">
             <div class="mb-3">
@@ -26,6 +30,17 @@ require '../utils/autoloader.php';
             <div class="mb-3">
                 <label for="ContraseñaUsuario" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="ContraseñaUsuario" id="ContraseñaUsuario">
+            </div>
+            <div class="col-md-12">
+                <label for="Alumno">Tipo :</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Tipo" id="Alumno" value="0">
+                    <label class="form-check-label" for="Alumno">Alumno</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="Tipo" id="Docente" value="1">
+                    <label class="form-check-label" for="Docente">Docente</label>
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
