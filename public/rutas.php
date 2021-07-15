@@ -10,8 +10,9 @@
                 header("Location: /Login");
             }
             break;
-        case '/Perfil';
-            cargarVista('PerfilUsuario');
+        case '/Perfil':
+            if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('PerfilUsuario');
+            if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::ModificacionDeUsuario();
             break;
      
         case '/Registrarse':
@@ -23,6 +24,8 @@
             if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Login');  
             if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::LoginDeUsuario();  
             break;     
+    
+
 
     
       

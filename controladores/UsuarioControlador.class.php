@@ -15,15 +15,33 @@ class UsuarioControlador
         return $usuario;
     }
 
+ 
+    public static function ModificacionDeUsuario()
+    {
+        try {
+            $usuario = self::GenerarUsuarioPorPost();
+            $usuario->Guardar($modificar = true);
+            return generarHtml('PerfilUsuario', ['exito' => true]);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return generarHtml('PerfilUsuario', ['exito' => false]);
+            
+        }
+    }
+
+
+
+
     public static function AltaDeUsuario()
     {
         try {
             $usuario = self::GenerarUsuarioPorPost();
-            $usuario->Guardar();
+            $usuario->Guardar($modificar = false);
             return generarHtml('Registrarse', ['exito' => true]);
         } catch (Exception $e) {
             error_log($e->getMessage());
             return generarHtml('Registrarse', ['exito' => false]);
+            
         }
     }
 

@@ -10,11 +10,11 @@ class UsuarioModelo extends Modelo
     public $FotoUsuario;
     public $AvatarUsuario;
 
-    public function Guardar()
+    public function Guardar(bool $modificar)
     {
-
-        $this->id ? $this->prepararUpdate() : $this->prepararInsert();
+        $modificar ? $this->prepararUpdate() : $this->prepararInsert();
         $this->sentencia->execute();
+
 
         if ($this->sentencia->error) {
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
@@ -24,21 +24,23 @@ class UsuarioModelo extends Modelo
     private function prepararUpdate()
     {
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "UPDATE Usuarios set CedulaUsuario = ?, NombreUsuario = ?, ContraseñaUsuario = ?, ApellidoUsuario = ?, FotoUsuario = ? , AvatarUsuario";
-        $this->sentencia = $this->conexion->prepare($sql);
+        $sql = "UPDATE Usuarios set  CedulaUsuario = ?, NombreUsuario = ?, ApellidoUsuario = ?, ContraseñaUsuario = ?, FotoUsuario = ? , AvatarUsuario = ? where CedulaUsuario= '$CedulaUsuario'= CedulaUsuario";
+        $this->sentencia = $this->conexion->prepare($sql); 
         $this->sentencia->bind_params(
             "isssss",
-            $this->CedulaUsuario,
+            $this->CedulaUsuario,   
             $this->NombreUsuario,
             $this->ApellidoUsuario,
             $this->ContraseñaUsuario,
             $this->FotoUsuario,
-            $this->AvatarUsuario
-        );
+            $this->AvatarUsuario);
+            
+        
+        
     }
+    
     private function prepararInsert()
     {
-       
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
         $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
@@ -50,9 +52,8 @@ class UsuarioModelo extends Modelo
             $this->ContraseñaUsuario,
             $this->FotoUsuario,
             $this->AvatarUsuario
-
         );
-   
+
     }
 
     public function Autenticar()
@@ -74,8 +75,9 @@ class UsuarioModelo extends Modelo
             } else {
                 throw new Exception("Error al iniciar sesion");
             }
-        } else throw new Exception("Error al iniciar sesion");
-
+        } else {
+            throw new Exception("Error al iniciar sesion");
+        }
     }
 
     private function compararPasswords($passwordHasheado)
