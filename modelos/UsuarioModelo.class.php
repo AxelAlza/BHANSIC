@@ -1,6 +1,6 @@
 <?php
 require '../utils/autoloader.php';
-
+$usuario=$_SESSION['USER'];
 class UsuarioModelo extends Modelo
 {
     public $CedulaUsuario;
@@ -20,22 +20,33 @@ class UsuarioModelo extends Modelo
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
+    private function verificarPassword()
+    {
+        if ($this->$usuario->ContraseñaUsuario==$this->hashearPassword($this->ContraseñaUsuario)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     private function prepararUpdate()
     {
-        $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "UPDATE Usuarios set  CedulaUsuario = ?, NombreUsuario = ?, ApellidoUsuario = ?, ContraseñaUsuario = ?, FotoUsuario = ? , AvatarUsuario = ? where CedulaUsuario= '$CedulaUsuario'= CedulaUsuario";
-        $this->sentencia = $this->conexion->prepare($sql); 
-        $this->sentencia->bind_params(
-            "isssss",
-            $this->CedulaUsuario,   
-            $this->NombreUsuario,
-            $this->ApellidoUsuario,
-            $this->ContraseñaUsuario,
-            $this->FotoUsuario,
-            $this->AvatarUsuario);
-            
-        
+        if (var_dump($this->verificarPassword())){ 
+            $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
+            $sql = "UPDATE Usuarios set  CedulaUsuario = ?, NombreUsuario = ?, ApellidoUsuario = ?, ContraseñaUsuario = ?, FotoUsuario = ? , AvatarUsuario = ? where CedulaUsuario=$this->CedulaUsuario";
+            $stmt= $this->sentencia = $this->conexion->prepare($sql);
+            $stmt= $stmt ->bind_param(
+                "isssss",
+                $this->CedulaUsuario,
+                $this->NombreUsuario,
+                $this->ApellidoUsuario,
+                $this->ContraseñaUsuario,
+                $this->FotoUsuario,
+                $this->AvatarUsuario
+            );
+        }else {
+            new Exception("Las constraseñas no coinciden");
+        }    
         
     }
     
