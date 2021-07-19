@@ -1,4 +1,5 @@
 <?php
+require '../utils/autoloader.php';
 class ConsultaModelo extends Modelo
 
 {

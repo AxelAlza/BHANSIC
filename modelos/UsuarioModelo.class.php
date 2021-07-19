@@ -77,11 +77,10 @@ abstract class UsuarioModelo extends Modelo
     {
 
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "UPDATE Usuarios set CedulaUsuario = ?, NombreUsuario = ?, ApellidoUsuario = ?, ContraseñaUsuario = ?, FotoUsuario = ?, AvatarUsuario = ?  where CedulaUsuario = $this->CedulaUsuario";
+        $sql = "UPDATE Usuarios set NombreUsuario = ?, ApellidoUsuario = ?, ContraseñaUsuario = ?, FotoUsuario = ?, AvatarUsuario = ?  where CedulaUsuario = $this->CedulaUsuario";
         $stmt=$this->sentencia = $this->conexion->prepare($sql);
         $stmt=$stmt->bind_param(
             "isssss",
-            $this->CedulaUsuario,
             $this->NombreUsuario,
             $this->ApellidoUsuario,
             $this->FotoUsuario,

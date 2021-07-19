@@ -34,20 +34,7 @@ class UsuarioControlador
             return generarHtml('PerfilUsuario', ['exito' => false]);
         }
     }
-
-    private static function ConsultaAlumno()
-    {
-    }
-
-    public static function AltaDeConsulta()
-    {
-        $Tipo = $_POST['Tipo'];
-        if ($Tipo == '0') {
-            ConsultaAlumno();
-        } else {
-            ConsultaDocente();
-        }
-    }
+  
 
 
 
@@ -79,7 +66,6 @@ class UsuarioControlador
     private static function CrearSesion($usuario)
     {
         ob_start();
-        $usuario->ContraseñaUsuario = "";
         $_SESSION['USER'] = $usuario;
     }
 

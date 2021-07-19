@@ -1,37 +1,33 @@
-<?php  
-    require '../utils/autoloader.php';
-    $request = $_SERVER['REQUEST_URI'];
-        
-    switch($request){
-        case '/':
-            if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['USER'])) {
-                cargarVista('Inicio');  
-            } else{
-                header("Location: /Login");
-            }
-            break;
-        case '/Perfil':
-            if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('PerfilUsuario');
-            if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::ModificacionDeUsuario();
-            break;
+<?php
+require '../utils/autoloader.php';
+$request = $_SERVER['REQUEST_URI'];
 
-        case '/Consultas':
-            if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Consultas');
-            
-            if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeConsulta();
-            break;
-        case '/Registrarse':
-            if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');  
-            if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeUsuario();  
-            break;
+switch ($request) {
+    case '/':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['USER'])) {
+            cargarVista('Inicio');
+        } else {
+            header("Location: /Login");
+        }
+        break;
+    case '/Perfil':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('PerfilUsuario');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::ModificacionDeUsuario();
+        break;
 
-        case '/Login':
-            if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Login');  
-            if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::LoginDeUsuario();  
-            break;     
-    
+    case '/Desloguearse':
+        UsuarioControlador::CerrarSesion();
+        break;
+    case '/Consultas':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Consultas');
+        break;
+    case '/Registrarse':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeUsuario();
+        break;
 
-
-    
-      
-    }
+    case '/Login':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Login');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::LoginDeUsuario();
+        break;
+}

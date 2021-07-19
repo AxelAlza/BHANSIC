@@ -1,4 +1,5 @@
 <?php
+require '../utils/autoloader.php';
 class DocenteModelo extends UsuarioModelo
 {
 
