@@ -1,4 +1,5 @@
 <?php
+require '../utils/autoloader.php';
 class AlumnoModelo extends UsuarioModelo
 {
 
@@ -19,15 +20,6 @@ class AlumnoModelo extends UsuarioModelo
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
-
-    #Sobreescrito
-    private function prepararAutenticacion()
-    {
-        $sql = "SELECT CedulaAlumno,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Alumnos INNER JOIN Usuarios on Alumnos.CedulaAlumno = Usuarios.CedulaUsuario  WHERE CedulaAlumno = ?";
-        $this->sentencia = $this->conexion->prepare($sql);
-        $this->sentencia->bind_param("i", $this->CedulaUsuario);
-    }
-
     #Sobreescrito
     private function prepararInsert()
     {
@@ -38,4 +30,16 @@ class AlumnoModelo extends UsuarioModelo
             $this->CedulaUsuario
         );
     }
+
+
+    #Sobreescrito
+    private function prepararAutenticacion()
+    {
+        $sql = "SELECT CedulaAlumno,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Alumnos INNER JOIN Usuarios on Alumnos.CedulaAlumno = Usuarios.CedulaUsuario  WHERE CedulaAlumno = ?";
+        $this->sentencia = $this->conexion->prepare($sql);
+        $this->sentencia->bind_param("i", $this->CedulaUsuario);
+    }
+
+ 
+
 }

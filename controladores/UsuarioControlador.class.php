@@ -7,6 +7,9 @@ class UsuarioControlador
 
     private static function GenerarUsuarioPorPost()
     {
+        if (!isset($_POST['Tipo'])){
+            throw new Exception("No se selecciono un tipo de usuario");
+        }
         $Tipo = $_POST['Tipo'];
         if ($Tipo == '0') {
             $usuario = new AlumnoModelo();

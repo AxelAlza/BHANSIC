@@ -19,6 +19,24 @@ abstract class UsuarioModelo extends Modelo
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
+    private function prepararInsert()
+    {
+        $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
+        $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
+        $this->sentencia = $this->conexion->prepare($sql);
+        $this->sentencia->bind_param(
+            "isssss",
+            $this->CedulaUsuario,
+            $this->NombreUsuario,
+            $this->ApellidoUsuario,
+            $this->ContraseñaUsuario,
+            $this->FotoUsuario,
+            $this->AvatarUsuario
+
+        );
+    }
+
+
 
     public function Autenticar()
     {
@@ -37,6 +55,24 @@ abstract class UsuarioModelo extends Modelo
         } else throw new Exception("Error al iniciar sesion");
     }
 
+
+
+
+    public function TraerMisConsultas()
+    {
+        $consultas = array();
+        $this->prepararSelectTodasMisConsultas();
+        $this->sentencia->execute();
+        $resultado = $this->sentencia->get_result()->fetch_assoc();
+        if ($this->sentencia->error) {
+            throw new Exception("Error al traer las consultas: " . $this->sentencia->error);
+        }
+        while ($consulta = mysqli_fetch_object($resultado)) {
+            array_push($consultas, $consulta);
+        }
+        return $consultas;
+    }
+
     private function prepararUpdate()
     {
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
@@ -52,20 +88,16 @@ abstract class UsuarioModelo extends Modelo
 
         );
     }
-    private function prepararInsert()
+
+
+    private function prepararSelectTodasMisConsultas()
     {
-        $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
+        $sql = "Select * from Consultas where CedulaAlumno = ? OR CedulaDocente = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
-            "isssss",
+            "ii",
             $this->CedulaUsuario,
-            $this->NombreUsuario,
-            $this->ApellidoUsuario,
-            $this->ContraseñaUsuario,
-            $this->FotoUsuario,
-            $this->AvatarUsuario
-
+            $this->CedulaUsuario
         );
     }
 

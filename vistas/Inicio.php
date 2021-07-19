@@ -35,7 +35,7 @@ $u = $_SESSION['USER'];
                     <a class="nav-link" href="/Perfil">Perfil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Consultas</a>
+                    <a class="nav-link" href="/Consultas">Consultas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Desloguearse">Desloguearse</a>
@@ -45,8 +45,14 @@ $u = $_SESSION['USER'];
     </nav>
     <div class="jumbotron">
         <h1 class="display-4">Bienvenido</h1>
-        <p class="lead"></p>
+      
         <hr class="my-4">
+        <?php if ($u->Tipo == "0"):?>
+            <p class="lead">Alumno</p>
+        <?php endif; ?>
+        <?php if ($u->Tipo == "1"):?>
+            <p class="lead">Docente</p>
+        <?php endif; ?>
         <p><?=$u->NombreUsuario." ".$u->ApellidoUsuario?></p>
     </div>
     <!--NavBar-->
