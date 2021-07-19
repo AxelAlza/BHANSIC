@@ -1,6 +1,6 @@
 <?php
 require '../utils/autoloader.php';
-$u = $_SESSION['USER'];
+var_dump($u = $_SESSION['USER']);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +35,7 @@ $u = $_SESSION['USER'];
                     <a class="nav-link" href="/Perfil">Perfil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">Consultas</a>
+                    <a class="nav-link" href="/Consultas">Consultas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Desloguearse">Desloguearse</a>

@@ -1,7 +1,7 @@
 <?php  
     require '../utils/autoloader.php';
     $request = $_SERVER['REQUEST_URI'];
-    
+        
     switch($request){
         case '/':
             if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['USER'])) {
@@ -14,7 +14,12 @@
             if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('PerfilUsuario');
             if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::ModificacionDeUsuario();
             break;
-     
+
+        case '/Consultas':
+            if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Consultas');
+            
+            if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeConsulta();
+            break;
         case '/Registrarse':
             if($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');  
             if($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeUsuario();  
