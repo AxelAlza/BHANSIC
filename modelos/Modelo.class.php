@@ -2,7 +2,7 @@
 
     require '../utils/autoloader.php';
     
-    class Modelo{
+        class Modelo{
         protected $IpDB;
         protected $NombreUsuarioDB;
         protected $PasswordDB;

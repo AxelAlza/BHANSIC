@@ -48,7 +48,6 @@ abstract class UsuarioModelo extends Modelo
             $this->CedulaUsuario,
             $this->NombreUsuario,
             $this->ApellidoUsuario,
-            $this->ContraseñaUsuario,
             $this->FotoUsuario,
             $this->AvatarUsuario
 
@@ -56,7 +55,6 @@ abstract class UsuarioModelo extends Modelo
     }
     private function prepararInsert()
     {
-
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
         $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
@@ -68,7 +66,8 @@ abstract class UsuarioModelo extends Modelo
             $this->ContraseñaUsuario,
             $this->FotoUsuario,
             $this->AvatarUsuario
-                   );
+
+        );
     }
 
 

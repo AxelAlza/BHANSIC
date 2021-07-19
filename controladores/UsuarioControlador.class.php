@@ -16,7 +16,7 @@ class UsuarioControlador
         $usuario->NombreUsuario = $_POST['NombreUsuario'];
         $usuario->ApellidoUsuario = $_POST['ApellidoUsuario'];
         $usuario->ContraseñaUsuario = $_POST['ContraseñaUsuario'];
-        
+        $usuario->Tipo = $Tipo;
         return $usuario;
     }
 
@@ -52,7 +52,7 @@ class UsuarioControlador
     {
         try {
             $usuario = self::GenerarUsuarioPorPost();
-            $usuario->Guardar($mod= false);
+            $usuario->Guardar(false);
             return generarHtml('Registrarse', ['exito' => true]);
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -72,7 +72,6 @@ class UsuarioControlador
             return generarHtml('Login', ['exito' => false]);
         }
     }
-
 
     private static function CrearSesion($usuario)
     {
