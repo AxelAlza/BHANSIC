@@ -75,16 +75,17 @@ abstract class UsuarioModelo extends Modelo
 
     private function prepararUpdate()
     {
+
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "UPDATE Usuarios set NombreUsuario = ?, ApellidoUsuario = ?, FotoUsuario = ? , AvatarUsuario = ? where CedulaUsuario = ?";
-        $this->sentencia = $this->conexion->prepare($sql);
-        $this->sentencia->bind_params(
-            "ssssi",
+        $sql = "UPDATE Usuarios set CedulaUsuario = ?, NombreUsuario = ?, ApellidoUsuario = ?, ContraseñaUsuario = ?, FotoUsuario = ?, AvatarUsuario = ?  where CedulaUsuario = $this->CedulaUsuario";
+        $stmt=$this->sentencia = $this->conexion->prepare($sql);
+        $stmt=$stmt->bind_param(
+            "isssss",
+            $this->CedulaUsuario,
             $this->NombreUsuario,
             $this->ApellidoUsuario,
             $this->FotoUsuario,
-            $this->AvatarUsuario,
-            $this->CedulaUsuario
+            $this->AvatarUsuario
 
         );
     }
@@ -115,6 +116,7 @@ abstract class UsuarioModelo extends Modelo
         $this->ApellidoUsuario = $resultado['ApellidoUsuario'];
         $this->FotoUsuario = $resultado['FotoUsuario'];
         $this->AvatarUsuario = $resultado['AvatarUsuario'];
+        $this->Tipo=$resultado['Tipo'];
     }
 
     public function hashearPassword($password)

@@ -4,7 +4,6 @@ require '../utils/autoloader.php';
 
 class UsuarioControlador
 {
-
     private static function GenerarUsuarioPorPost()
     {
         if (!isset($_POST['Tipo'])){
@@ -23,6 +22,34 @@ class UsuarioControlador
         $usuario->Tipo = $Tipo;
         return $usuario;
     }
+
+    public static function ModificacionDeUsuario()
+    {
+        try {
+            $usuario = self::GenerarUsuarioPorPost();
+            $usuario->Guardar($mod = true);
+            return generarHtml('PerfilUsuario', ['exito' => true]);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return generarHtml('PerfilUsuario', ['exito' => false]);
+        }
+    }
+
+    private static function ConsultaAlumno()
+    {
+    }
+
+    public static function AltaDeConsulta()
+    {
+        $Tipo = $_POST['Tipo'];
+        if ($Tipo == '0') {
+            ConsultaAlumno();
+        } else {
+            ConsultaDocente();
+        }
+    }
+
+
 
     public static function AltaDeUsuario()
     {

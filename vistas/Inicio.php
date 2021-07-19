@@ -1,6 +1,6 @@
 <?php
 require '../utils/autoloader.php';
-$u = $_SESSION['USER'];
+var_dump($u = $_SESSION['USER']);
 ?>
 
 <!DOCTYPE html>

@@ -25,7 +25,7 @@ require '../utils/autoloader.php';
         <form method="POST">
             <div class="mb-3">
                 <label for="CedulaUsuario" class="form-label">Cedula</label>
-                <input type="number" class="form-control" id="CedulaUsuario" name="CedulaUsuario">
+                <input type="number" class="form-control" name="CedulaUsuario"  id="CedulaUsuario">
             </div>
             <div class="mb-3">
                 <label for="ContraseñaUsuario" class="form-label">Contraseña</label>
