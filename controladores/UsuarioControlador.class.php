@@ -4,7 +4,6 @@ require '../utils/autoloader.php';
 
 class UsuarioControlador
 {
-
     private static function GenerarUsuarioPorPost()
     {
         $Tipo = $_POST['Tipo'];
@@ -12,12 +11,12 @@ class UsuarioControlador
             $usuario = new AlumnoModelo();
         } else {
             $usuario = new DocenteModelo();
-            }
+        }
         $usuario->CedulaUsuario = $_POST['CedulaUsuario'];
         $usuario->NombreUsuario = $_POST['NombreUsuario'];
         $usuario->ApellidoUsuario = $_POST['ApellidoUsuario'];
         $usuario->ContraseñaUsuario = $_POST['ContraseñaUsuario'];
-    
+        
         return $usuario;
     }
 
@@ -30,12 +29,11 @@ class UsuarioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
             return generarHtml('PerfilUsuario', ['exito' => false]);
-            
         }
     }
 
-    private static function ConsultaAlumno(){
-        
+    private static function ConsultaAlumno()
+    {
     }
 
     public static function AltaDeConsulta()
@@ -75,11 +73,11 @@ class UsuarioControlador
         }
     }
 
+
     private static function CrearSesion($usuario)
     {
         ob_start();
         $usuario->ContraseñaUsuario = "";
-        $DocumentoUsuario=$usuario->CedulaUsuario;
         $_SESSION['USER'] = $usuario;
     }
 
