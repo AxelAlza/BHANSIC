@@ -11,4 +11,6 @@
     require '../config.php';
     require_once '../utils/Conexion.php';
     require_once 'render.php';
+    require_once '../utils/Utils.php';
+
     session_start();

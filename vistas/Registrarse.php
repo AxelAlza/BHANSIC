@@ -17,13 +17,7 @@ require '../utils/autoloader.php';
 
 
     <div class="container">
-        <?php if (isset($parametros['exito']) && $parametros['exito'] == true) : ?>
-            <div style="color: #00FF00"> La persona se guardo con exito </div>
-        <?php endif; ?>
-
-        <?php if (isset($parametros['exito']) && $parametros['exito'] == false) : ?>
-            <div style="color: #FF0000"> Hubo un problema al guardar la persona </div>
-        <?php endif; ?>
+        <?php Informes::EspacioInformes($parametros); ?>
         <a href="/Login">
             <p>Ir al inicio de sesion</p>
         </a>

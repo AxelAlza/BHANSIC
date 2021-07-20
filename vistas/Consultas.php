@@ -16,7 +16,7 @@ $usuario = $_SESSION['USER'];
 <body>
   <?php generarHtml("NavBar", null); ?>
   <div class="container">
-
+  <?php Informes::EspacioInformes($parametros);?>
     <form method="POST">
       <div class="col-md-4">
         <label for="NombreUsuario" class="form-label">Nombre</label>
@@ -30,10 +30,7 @@ $usuario = $_SESSION['USER'];
       </div>
       <div class="col-md-4">
         <label for="Consulta" class="form-label">Consulta</label><br>
-
         <textarea class="input" name="Consulta" id="Consulta" rows="10" cols="30"></textarea>
-
-
       </div>
 
       <div class="col-12">

@@ -18,4 +18,12 @@ class SesionControlador
     public static function ActualizarSesion($usuario){
         $_SESSION['USER'] = $usuario;
     }
+
+    public static function RetornarUsuarioSesion(){
+        return $_SESSION['USER'];
+    }
+
+    public static function SeInicioSesion(){
+        return isset($_SESSION['USER']);
+    }
 }

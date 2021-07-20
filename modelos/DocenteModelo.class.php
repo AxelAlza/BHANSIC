@@ -38,8 +38,6 @@ class DocenteModelo extends UsuarioModelo
         );
     }
 
-
-
     public static function TraerDocentes()
     {
         $docentes = array();
@@ -54,7 +52,6 @@ class DocenteModelo extends UsuarioModelo
         while ($docente = mysqli_fetch_object($resultado , "DocenteModelo")) {
             array_push($docentes, $docente);
         }
-        var_dump($docentes);
         return $docentes;
     }
 }

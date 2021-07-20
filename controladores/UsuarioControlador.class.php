@@ -29,9 +29,10 @@ class UsuarioControlador
             $usuario = self::GenerarUsuarioPorPost();
             $usuario->Guardar(true);
             SesionControlador::ActualizarSesion($usuario);
-            return generarHtml('PerfilUsuario', ['exito' => true]);
+            Informes::InformarExito("Se modifico el usuario correctamente" , "PerfilUsuario");
         } catch (Exception $e) {
             error_log($e->getMessage());
+            Informes::InformarErrores("Hubo un error al modificar al usuario" , "PerfilUsuario");
             return generarHtml('PerfilUsuario', ['exito' => false]);
         }
     }
@@ -41,7 +42,7 @@ class UsuarioControlador
         try {
             $usuario = self::GenerarUsuarioPorPost();
             $usuario->Guardar(false);
-            return generarHtml('Registrarse', ['exito' => true]);
+           
         } catch (Exception $e) {
             error_log($e->getMessage());
             return generarHtml('Registrarse', ['exito' => false]);
@@ -57,7 +58,7 @@ class UsuarioControlador
             header("Location: /");
         } catch (Exception $e) {
             error_log($e->getMessage());
-            return generarHtml('Login', ['exito' => false]);
+            Informes::InformarErrores("Hubo un error al autenticarse" , "Login");
         }
     }
 }

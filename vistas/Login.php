@@ -19,9 +19,7 @@ require '../utils/autoloader.php';
     <a href="/Registrarse">
         <p>Registrarse</p>
     </a>
-        <?php if (isset($parametros['exito']) && $parametros['exito'] == false) : ?>
-            <div style="color: #FF0000"> Hubo un problema al autenticarse </div>
-        <?php endif; ?>
+        <?php Informes::EspacioInformes($parametros);?>
         <form method="POST">
             <div class="mb-3">
                 <label for="CedulaUsuario" class="form-label">Cedula</label>

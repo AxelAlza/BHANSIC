@@ -15,31 +15,33 @@ $usuario = $_SESSION['USER'];
 
 <body>
   <?php generarHtml("NavBar", null); ?>
+
   <div class="container">
-
+    <?php Informes::EspacioInformes($parametros); ?>
     <form method="POST">
-      <div class="col-md-4">
-        <label for="Tema" class="form-label">Tema</label>
-        <input type="text" class="form-control" name="Tema" id="Tema">
+      <div class="row ">
+        <div class="col-3">
+          <label for="Tema" class="form-label">Tema</label>
+          <input type="text" class="form-control" name="Tema" id="Tema">
+        </div>
+      </div>
+      <div class="row form-group">
+        <?php echo ConsultaControlador::DropDownDocentes(); ?>
       </div>
 
-      <div class="col-md-12">
-        <select class="form-select" aria-label="Seleccione docente">
-          <?php
-            foreach (DocenteModelo::TraerDocentes() as $docente) {
-            echo "<option>" . $docente->NombreUsuario." ".$docente->ApellidoUsuario."</option>";
-          } ?>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="Consulta" class="form-label">Contenido de la consulta</label><br>
-        <textarea class="input" name="Consulta" id="Consulta" rows="10" cols="30"></textarea>
+      <div class="row form-group">
+        <div class="col-12 align-self-center">
+          <div class="form-floating">
+            <label for="Contenido">Consulta</label>
+            <textarea class="form-control" placeholder="Escriba el contenido de la consulta" id="Contenido" name="Contenido"></textarea>
+          </div>
+        </div>
       </div>
 
-      <div class="col-12">
-        <button class="btn btn-primary" type="submit">Submit form</button>
-      </div>
-    </form>
+      <button class="btn btn-primary" type="submit">Hacer consulta</button>
+  </div>
+
+  </form>
 </body>
 
 </html>

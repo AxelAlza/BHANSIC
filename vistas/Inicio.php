@@ -20,19 +20,20 @@ $u = $_SESSION['USER'];
 
 <body>
 
-   <?php generarHtml("NavBar",null);?>
-   
+    <?php generarHtml("NavBar", null); ?>
+
     <div class="jumbotron">
+        <?php Informes::EspacioInformes($parametros); ?>
         <h1 class="display-4">Bienvenido</h1>
-      
+
         <hr class="my-4">
-        <?php if ($u->Tipo == "0"):?>
+        <?php if ($u->Tipo == "0") : ?>
             <p class="lead">Alumno</p>
         <?php endif; ?>
-        <?php if ($u->Tipo == "1"):?>
+        <?php if ($u->Tipo == "1") : ?>
             <p class="lead">Docente</p>
         <?php endif; ?>
-        <p><?=$u->NombreUsuario." ".$u->ApellidoUsuario?></p>
+        <p><?= $u->NombreUsuario . " " . $u->ApellidoUsuario ?></p>
     </div>
     <!--NavBar-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
