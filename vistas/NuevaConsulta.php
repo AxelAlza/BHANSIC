@@ -26,7 +26,7 @@ $usuario = $_SESSION['USER'];
         </div>
       </div>
       <div class="row form-group">
-        <?php echo ConsultaControlador::DropDownDocentes(); ?>
+        <?php ConsultaControlador::DropDownDocentes(); ?>
       </div>
 
       <div class="row form-group">

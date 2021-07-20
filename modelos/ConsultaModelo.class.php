@@ -9,21 +9,40 @@ class ConsultaModelo extends Modelo
     public $FechaYHora;
     public $Tema;
     public $Estado;
-    
-    
-    public function Guardar(){
+
+
+    public function Guardar()
+    {
         $this->prepararInsert();
         $this->sentencia->execute();
+
         if ($this->sentencia->error) {
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
 
-    private function prepararInsert(){
+
+    public static function InsertarContenido($CedulaUsuario, $Contenido)
+    {
+
+        $conexion = ConexionUtil::RetornarConexion();
+        $sql = "INSERT INTO Respuestas (CedulaUsuario,Contenido,FechaYHoraEmision) values (?,?,?)";
+        $sentencia = $conexion->prepare($sql);
+        $sentencia->bind_param(
+            "iss",
+            $CedulaUsuario,
+            $Contenido,
+            date("Y-m-d H:i:s")
+        );
+        $sentencia->execute();
+    }
+
+    private function prepararInsert()
+    {
         $sql = "INSERT INTO Consultas (CedulaAlumno,CedulaDocente,FechaYHora,Tema,Estado) values (?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
-            "iiiss",
+            "iisss",
             $this->CedulaAlumno,
             $this->CedulaDocente,
             $this->FechaYHora,
@@ -31,6 +50,4 @@ class ConsultaModelo extends Modelo
             $this->Estado
         );
     }
-
-  
 }

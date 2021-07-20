@@ -10,7 +10,7 @@ switch ($request) {
             header("Location: /Login");
         }
         break;
-    case '/Perfil':  
+    case '/Perfil':
         if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('PerfilUsuario');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::ModificacionDeUsuario();
         break;
@@ -19,17 +19,17 @@ switch ($request) {
         SesionControlador::CerrarSesion();
         break;
     case '/Consultas':
-  
         if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('NuevaConsulta');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') ConsultaControlador::CrearConsulta();
         break;
     case '/Registrarse':
-     
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeUsuario();
         break;
 
     case '/Login':
-      
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Login');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::LoginDeUsuario();
         break;

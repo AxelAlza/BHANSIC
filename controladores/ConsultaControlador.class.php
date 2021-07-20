@@ -6,18 +6,19 @@ class ConsultaControlador
 
     public static function CrearConsulta()
     {
-    try{
-        $usuario = $_SESSION['USER'];
-        $consulta = new ConsultaModelo();
-        $consulta->CedulaAlumno = $usuario->CedulaUsuario;
-        $consulta->CedulaDocente = $_POST['CedulaDocente'];
-        $consulta->FechaYHora = date("Y-m-d H:i:s");
-        $consulta->Tema = $_POST['Tema'];
-        $consulta->Estado = "Realizada";
-        $consulta->Guardar();
-    } catch (Exception $e) {
-        return generarHtml('NuevaConsulta', ['exito' => false]);
-    }
+        try {
+            $usuario = $_SESSION['USER'];
+            $consulta = new ConsultaModelo();
+            $consulta->CedulaAlumno = $usuario->CedulaUsuario;
+            $consulta->CedulaDocente = $_POST['CedulaDocente'];
+            $consulta->FechaYHora = date("Y-m-d H:i:s");
+            $consulta->Tema = $_POST['Tema'];
+            $consulta->Estado = "Realizada";
+            $consulta->Guardar();
+            Informes::InformarExito("Se envio la consulta correctamente", "NuevaConsulta");
+        } catch (Exception $e) {
+            Informes::InformarErrores("Hubo un error al enviar la consulta", "NuevaConsulta");
+        }
     }
 
     public static function DropDownDocentes()
@@ -35,6 +36,6 @@ class ConsultaControlador
         </select>
         </div>
         HTML;
-        return $html;
+        echo $html;
     }
 }
