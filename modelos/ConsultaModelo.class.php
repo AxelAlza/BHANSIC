@@ -9,6 +9,7 @@ class ConsultaModelo extends Modelo
     public $FechaYHora;
     public $Tema;
     public $Estado;
+    public $Contenidos;
 
 
     public function Guardar()
@@ -21,33 +22,18 @@ class ConsultaModelo extends Modelo
         }
     }
 
-
-    public static function InsertarContenido($CedulaUsuario, $Contenido)
-    {
-
-        $conexion = ConexionUtil::RetornarConexion();
-        $sql = "INSERT INTO Respuestas (CedulaUsuario,Contenido,FechaYHoraEmision) values (?,?,?)";
-        $sentencia = $conexion->prepare($sql);
-        $sentencia->bind_param(
-            "iss",
-            $CedulaUsuario,
-            $Contenido,
-            date("Y-m-d H:i:s")
-        );
-        $sentencia->execute();
-    }
-
     private function prepararInsert()
     {
-        $sql = "INSERT INTO Consultas (CedulaAlumno,CedulaDocente,FechaYHora,Tema,Estado) values (?,?,?,?,?)";
+        $sql = "CALL CrearConsulta(?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
-            "iisss",
+            "iissss",
             $this->CedulaAlumno,
             $this->CedulaDocente,
             $this->FechaYHora,
             $this->Tema,
-            $this->Estado
+            $this->Estado,
+            $this->Contenidos
         );
     }
 }
