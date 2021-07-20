@@ -19,21 +19,21 @@ $usuario = $_SESSION['USER'];
 
     <form method="POST">
       <div class="col-md-4">
-        <label for="NombreUsuario" class="form-label">Nombre</label>
-        <input type="text" class="form-control" name="NombreUsuario" id="NombreUsuario" value=<?= $usuario->NombreUsuario ?>>
+        <label for="Tema" class="form-label">Tema</label>
+        <input type="text" class="form-control" name="Tema" id="Tema">
+      </div>
 
+      <div class="col-md-12">
+        <select class="form-select" aria-label="Seleccione docente">
+          <?php
+            foreach (DocenteModelo::TraerDocentes() as $docente) {
+            echo "<option>" . $docente->NombreUsuario." ".$docente->ApellidoUsuario."</option>";
+          } ?>
+        </select>
       </div>
       <div class="col-md-4">
-        <label for="ApellidoUsuario" class="form-label">Apellido</label>
-        <input type="text" class="form-control" name="ApellidoUsuario" id="ApellidoUsuario" value=<?= $usuario->ApellidoUsuario ?>>
-
-      </div>
-      <div class="col-md-4">
-        <label for="Consulta" class="form-label">Consulta</label><br>
-
+        <label for="Consulta" class="form-label">Contenido de la consulta</label><br>
         <textarea class="input" name="Consulta" id="Consulta" rows="10" cols="30"></textarea>
-
-
       </div>
 
       <div class="col-12">

@@ -15,6 +15,7 @@ $usuario = $_SESSION['USER'];
 
 <body>
 
+  <?php generarHtml("NavBar", null); ?>
 
   <div class="container">
     <?php if (isset($parametros['exito']) && $parametros['exito'] == true) : ?>
@@ -24,10 +25,12 @@ $usuario = $_SESSION['USER'];
     <?php if (isset($parametros['exito']) && $parametros['exito'] == false) : ?>
       <div style="color: #FF0000"> Hubo un problema al guardar la persona </div>
     <?php endif; ?>
-    <a href="/">
-    <p> Volver al inicio</p>
-    </a>
+
     <form method="POST">
+      <div class="col-md-4">
+        <label for="CedulaUsuario" class="form-label">Documento</label>
+        <input type="number" class="form-control" name="CedulaUsuario" readonly id="CedulaUsuario" value=<?= $usuario->CedulaUsuario ?>>
+      </div>
       <div class="col-md-4">
         <label for="NombreUsuario" class="form-label">Nombre</label>
         <input type="text" class="form-control" name="NombreUsuario" id="NombreUsuario" value=<?= $usuario->NombreUsuario ?>>
@@ -36,24 +39,10 @@ $usuario = $_SESSION['USER'];
       <div class="col-md-4">
         <label for="ApellidoUsuario" class="form-label">Apellido</label>
         <input type="text" class="form-control" name="ApellidoUsuario" id="ApellidoUsuario" value=<?= $usuario->ApellidoUsuario ?>>
-
-      </div>
-      <div class="col-md-4">
-        <label for="CedulaUsuario" class="form-label">Documento</label>
-
-        <input type="number" class="form-control" name="CedulaUsuario" id="CedulaUsuario" value=<?= $usuario->CedulaUsuario ?>>
-
-
-      </div>
-      <div class="col-md-4">
-        <label for="ContraseñaUsuario" class="form-label">Contraseña</label>
-
-        <input type="password" class="form-control" name="ContraseñaUsuario" id="ContraseñaUsuario">
-
       </div>
 
       <div class="col-12">
-        <button class="btn btn-primary" type="submit">Submit form</button>
+        <button class="btn btn-primary" type="submit">Modificar</button>
       </div>
     </form>
 </body>

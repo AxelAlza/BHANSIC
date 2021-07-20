@@ -23,7 +23,7 @@ class DocenteModelo extends UsuarioModelo
     #Sobreescrito
     private function prepararAutenticacion()
     {
-        $sql = "SELECT CedulaDocente,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Docentes INNER JOIN Usuarios on Docentes.CedulaDocente = Usuarios.CedulaUsuario  WHERE CedulaDocente = ?";
+        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Docentes INNER JOIN Usuarios on Docentes.CedulaDocente = Usuarios.CedulaUsuario  WHERE CedulaDocente = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param("i", $this->CedulaUsuario);
     }
@@ -36,5 +36,25 @@ class DocenteModelo extends UsuarioModelo
             "i",
             $this->CedulaUsuario
         );
+    }
+
+
+
+    public static function TraerDocentes()
+    {
+        $docentes = array();
+        $conexion = ConexionUtil::RetornarConexion();
+        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario FROM Docentes inner join Usuarios on Usuarios.CedulaUsuario = Docentes.CedulaDocente";
+        $sentencia = $conexion->prepare($sql);
+        $sentencia->execute();
+        $resultado = $sentencia->get_result();
+        if ($sentencia->error) {
+            throw new Exception("Error al traer los docentes: " . $sentencia->error);
+        }
+        while ($docente = mysqli_fetch_object($resultado , "DocenteModelo")) {
+            array_push($docentes, $docente);
+        }
+        var_dump($docentes);
+        return $docentes;
     }
 }

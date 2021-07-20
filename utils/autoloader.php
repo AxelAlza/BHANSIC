@@ -9,5 +9,6 @@
     });
 
     require '../config.php';
+    require_once '../utils/Conexion.php';
     require_once 'render.php';
     session_start();

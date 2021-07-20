@@ -14,10 +14,12 @@ class AlumnoModelo extends UsuarioModelo
     public function Guardar(bool $modificar)
     {
         parent::Guardar($modificar);
-        $this->prepararInsert();
-        $this->sentencia->execute();
-        if ($this->sentencia->error) {
-            throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
+        if ($modificar == false) {
+            $this->prepararInsert();
+            $this->sentencia->execute();
+            if ($this->sentencia->error) {
+                throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
+            }
         }
     }
     #Sobreescrito
@@ -35,11 +37,8 @@ class AlumnoModelo extends UsuarioModelo
     #Sobreescrito
     private function prepararAutenticacion()
     {
-        $sql = "SELECT CedulaAlumno,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Alumnos INNER JOIN Usuarios on Alumnos.CedulaAlumno = Usuarios.CedulaUsuario  WHERE CedulaAlumno = ?";
+        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Alumnos INNER JOIN Usuarios on Alumnos.CedulaAlumno = Usuarios.CedulaUsuario  WHERE CedulaAlumno = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param("i", $this->CedulaUsuario);
     }
-
- 
-
 }
