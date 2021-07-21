@@ -17,7 +17,13 @@ $usuario = $_SESSION['USER'];
   <?php generarHtml("NavBar", null); ?>
 
   <div class="container">
+    
+  
     <?php Informes::EspacioInformes($parametros); ?>
+
+    <a href="/ListaConsultas">
+            <p>Mis consultas</p>
+   </a>
     <form method="POST">
       <div class="row ">
         <div class="col-3">

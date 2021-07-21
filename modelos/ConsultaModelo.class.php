@@ -50,4 +50,38 @@ class ConsultaModelo extends Modelo
             $this->Estado
         );
     }
+
+    public static function TraerConsultas()
+    {
+        $consultas = array();
+        $conexion = ConexionUtil::RetornarConexion();
+        $sql= "SELECT NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaAlumno = ?";
+        $consulta  = mysql_query ($sql,$conexion);
+        $sentencia = $conexion->prepare($sql);
+        $sentencia->execute();
+        $resultado=$sentencia->get_result();
+        
+    
+        while ($consulta = mysqli_fetch_array($consulta)) {
+            array_push($consultas, $consulta);
+        }
+        
+        return $consultas;
+    }
+
+    public static function ListaConsultas()
+
+    {
+       
+     foreach (self::TraerConsultas() as $elemento) {
+     $html .= "\n<p> {$elemento->NombreUsuario} '> {$elemento->ApellidoUsuario} {$elemento->Tema} </p>";
+        }
+        $html .= <<<HTML
+        </select>
+        </div>
+        HTML;
+        echo $html;
+    }
+
+
 }

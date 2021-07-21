@@ -22,7 +22,7 @@ abstract class UsuarioModelo extends Modelo
     private function prepararInsert()
     {
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
+        $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
             "isssss",
@@ -46,7 +46,7 @@ abstract class UsuarioModelo extends Modelo
             throw new Exception("Error al obtener el usuario: " . $this->sentencia->error);
         }
         if ($resultado) {
-            $comparacion = $this->compararPasswords($resultado['ContraseñaUsuario']);
+            $comparacion = $this->compararPasswords($resultado['ContraseaUsuario']);
             if ($comparacion) {
                 $this->asignarDatosDeUsuario($resultado);
             } else {
