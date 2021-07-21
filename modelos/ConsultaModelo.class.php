@@ -1,7 +1,8 @@
 <?php
 require '../utils/autoloader.php';
-class ConsultaModelo extends Modelo
+$_SESSION['USER'];
 
+class ConsultaModelo extends Modelo
 {
     public $IdConsulta;
     public $CedulaAlumno;
@@ -39,7 +40,7 @@ class ConsultaModelo extends Modelo
     {
         
 
-        $sql= "Select NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaUsuario = ?";
+        $sql= "SELECT CedulaDocente,CedulaAlumno FROM Consultas where CedulaAlumno = $_SESSION ['CedulaAlumno']";
         $sentencia=$conexion->prepare($sql);
         $sentencia->execute();
         $sentencia->bind_param(
