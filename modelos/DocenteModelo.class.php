@@ -43,8 +43,8 @@ class DocenteModelo extends UsuarioModelo
         $docentes = array();
         $conexion = ConexionUtil::RetornarConexion();
         $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario FROM Docentes inner join Usuarios on Usuarios.CedulaUsuario = Docentes.CedulaDocente";
-        $sentencia = $conexion->prepare($sql);
-        $sentencia->execute();
+        var_dump($sentencia = $conexion->prepare($sql));
+        var_dump($sentencia->execute());
         $resultado = $sentencia->get_result();
         if ($sentencia->error) {
             throw new Exception("Error al traer los docentes: " . $sentencia->error);

@@ -22,52 +22,34 @@ class ConsultaModelo extends Modelo
         }
     }
 
-    private function prepararInsert()
-    {
-        $sql = "CALL CrearConsulta(?,?,?,?,?,?)";
+    private function prepararInsert(){
+        $sql = "INSERT INTO Consultas (CedulaAlumno,CedulaDocente,FechaYHora,Tema,Estado) values (?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
-            "iissss",
+            "iiiss",
             $this->CedulaAlumno,
             $this->CedulaDocente,
             $this->FechaYHora,
             $this->Tema,
-            $this->Estado,
-            $this->Contenidos
+            $this->Estado
         );
     }
 
-    public static function TraerConsultas()
+    public function TraerConsultas()
     {
-        $consultas = array();
-        $conexion = ConexionUtil::RetornarConexion();
-        $sql= "SELECT NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaAlumno = ?";
-        $consulta  = mysql_query ($sql,$conexion);
-        $sentencia = $conexion->prepare($sql);
+        
+
+        $sql= "Select NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaUsuario = ?";
+        $sentencia=$conexion->prepare($sql);
         $sentencia->execute();
-        $resultado=$sentencia->get_result();
-        
+        $sentencia->bind_param(
+            "ii",
+            $this->CedulaDocente,
+            $this->CedulaAlumno
+        );
+    }
+
     
-        while ($consulta = mysqli_fetch_array($consulta)) {
-            array_push($consultas, $consulta);
-        }
-        
-        return $consultas;
-    }
-
-    public static function ListaConsultas()
-
-    {
-       
-     foreach (self::TraerConsultas() as $elemento) {
-     $html .= "\n<p> {$elemento->NombreUsuario} '> {$elemento->ApellidoUsuario} {$elemento->Tema} </p>";
-        }
-        $html .= <<<HTML
-        </select>
-        </div>
-        HTML;
-        echo $html;
-    }
 
 
 }

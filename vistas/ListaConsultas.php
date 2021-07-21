@@ -31,7 +31,7 @@ $usuario = $_SESSION['USER'];
 </tr>
 
 <tr>
-  <td><?php ConsultaModelo::ListaConsultas(); ?></td>
+  <td><?php ConsultaControlador::ListaConsultas();?></td>
   
 </tr>
 

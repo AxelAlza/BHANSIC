@@ -22,6 +22,19 @@ class ConsultaControlador
         }
     }
 
+    public static function ListaConsultas()
+
+    {
+       
+     foreach (var_dump(ConsultaModelo::TraerConsultas()) as $consulta) {
+     $html .= "\n<p> {$consulta->NombreUsuario} '> {$consulta->ApellidoUsuario} {$consulta->Tema} </p>";
+        }
+        $html .= <<<HTML
+        </select>
+        </div>
+        HTML;
+        echo $html;
+    }
     
 
 
