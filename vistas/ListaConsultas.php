@@ -30,6 +30,7 @@ $usuario = $_SESSION['USER'];
             <th scope="col">Tema</th>
             <th scope="col">Fecha de emision</th>
             <th scope="col">Estado</th>
+            <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>

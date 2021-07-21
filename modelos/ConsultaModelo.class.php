@@ -24,15 +24,16 @@ class ConsultaModelo extends Modelo
     }
 
     private function prepararInsert(){
-        $sql = "INSERT INTO Consultas (CedulaAlumno,CedulaDocente,FechaYHora,Tema,Estado) values (?,?,?,?,?)";
+        $sql = "CALL CrearConsulta(?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
-            "iiiss",
+            "iissss",
             $this->CedulaAlumno,
             $this->CedulaDocente,
             $this->FechaYHora,
             $this->Tema,
-            $this->Estado
+            $this->Estado,
+            $this->Contenidos
         );
     }
 
@@ -40,7 +41,7 @@ class ConsultaModelo extends Modelo
     {
         $consultas = array();
         $conexion = ConexionUtil::RetornarConexion();
-        $sql= "SELECT NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaAlumno = ? or CedulaDocente = ?";
+        $sql= "SELECT Consultas.CedulaDocente,IdConsulta,Consultas.CedulaAlumno,NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaAlumno = ? or CedulaDocente = ?";
         $sentencia=$conexion->prepare($sql);
         $sentencia->bind_param(
             "ii",

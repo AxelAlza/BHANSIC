@@ -35,14 +35,13 @@ class ConsultaControlador
                 <td>{$consulta->Tema}</td>
                 <td>{$consulta->FechaYHora}</td>
                 <td>{$consulta->Estado}</td>
+                <td><button type="button" class="btn btn-primary btn-sm">ver</button></td>
             </tr>
             HTML;
             echo $html;
         }
       
     }
-
-
 
     public static function DropDownDocentes()
 
