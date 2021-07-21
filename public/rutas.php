@@ -22,6 +22,9 @@ switch ($request) {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('NuevaConsulta');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') ConsultaControlador::CrearConsulta();
         break;
+    case '/ListaConsultas':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('ListaConsultas');
+        break;
     case '/Registrarse':
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');
