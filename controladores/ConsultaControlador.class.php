@@ -14,6 +14,7 @@ class ConsultaControlador
             $consulta->FechaYHora = date("Y-m-d H:i:s");
             $consulta->Tema = $_POST['Tema'];
             $consulta->Estado = "Realizada";
+            $consulta->Contenidos = $_POST['Contenido'];
             $consulta->Guardar();
             Informes::InformarExito("Se envio la consulta correctamente", "NuevaConsulta");
         } catch (Exception $e) {
