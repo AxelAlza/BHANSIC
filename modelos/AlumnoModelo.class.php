@@ -37,7 +37,7 @@ class AlumnoModelo extends UsuarioModelo
     #Sobreescrito
     private function prepararAutenticacion()
     {
-        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseaUsuario FROM Alumnos INNER JOIN Usuarios on Alumnos.CedulaAlumno = Usuarios.CedulaUsuario  WHERE CedulaAlumno = ?";
+        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Alumnos INNER JOIN Usuarios on Alumnos.CedulaAlumno = Usuarios.CedulaUsuario  WHERE CedulaAlumno = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param("i", $this->CedulaUsuario);
     }

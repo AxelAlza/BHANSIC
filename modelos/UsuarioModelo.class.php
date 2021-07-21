@@ -22,7 +22,7 @@ abstract class UsuarioModelo extends Modelo
     private function prepararInsert()
     {
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
-        $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
+        $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
             "isssss",
@@ -46,7 +46,7 @@ abstract class UsuarioModelo extends Modelo
             throw new Exception("Error al obtener el usuario: " . $this->sentencia->error);
         }
         if ($resultado) {
-            $comparacion = $this->compararPasswords($resultado['ContraseaUsuario']);
+            $comparacion = $this->compararPasswords($resultado['ContraseñaUsuario']);
             if ($comparacion) {
                 $this->asignarDatosDeUsuario($resultado);
             } else {
@@ -56,22 +56,6 @@ abstract class UsuarioModelo extends Modelo
     }
 
 
-
-
-    public function TraerMisConsultas()
-    {
-        $consultas = array();
-        $this->prepararSelectTodasMisConsultas();
-        $this->sentencia->execute();
-        $resultado = $this->sentencia->get_result()->fetch_assoc();
-        if ($this->sentencia->error) {
-            throw new Exception("Error al traer las consultas: " . $this->sentencia->error);
-        }
-        while ($consulta = mysqli_fetch_object($resultado)) {
-            array_push($consultas, $consulta);
-        }
-        return $consultas;
-    }
 
     private function prepararUpdate()
     {
@@ -83,18 +67,6 @@ abstract class UsuarioModelo extends Modelo
             $this->ApellidoUsuario,
             $this->FotoUsuario,
             $this->AvatarUsuario,
-            $this->CedulaUsuario
-        );
-    }
-
-
-    private function prepararSelectTodasMisConsultas()
-    {
-        $sql = "Select * from Consultas where CedulaAlumno = ? OR CedulaDocente = ?";
-        $this->sentencia = $this->conexion->prepare($sql);
-        $this->sentencia->bind_param(
-            "ii",
-            $this->CedulaUsuario,
             $this->CedulaUsuario
         );
     }

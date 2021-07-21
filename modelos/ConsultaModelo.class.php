@@ -36,18 +36,24 @@ class ConsultaModelo extends Modelo
         );
     }
 
-    public function TraerConsultas()
+    public static function TraerConsultas($cedula)
     {
-        
-
-        $sql= "SELECT CedulaDocente,CedulaAlumno FROM Consultas where CedulaAlumno = $_SESSION ['CedulaAlumno']";
+        $consultas = array();
+        $conexion = ConexionUtil::RetornarConexion();
+        $sql= "SELECT NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario where CedulaAlumno = ? or CedulaDocente = ?";
         $sentencia=$conexion->prepare($sql);
-        $sentencia->execute();
         $sentencia->bind_param(
             "ii",
-            $this->CedulaDocente,
-            $this->CedulaAlumno
+            $cedula,
+            $cedula
         );
+        $sentencia->execute();
+        $resultado = $sentencia->get_result();
+        while ($consulta = mysqli_fetch_object($resultado)) {
+            array_push($consultas, $consulta);
+        }
+        return $consultas;
+
     }
 
     

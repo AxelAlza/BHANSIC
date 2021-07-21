@@ -25,17 +25,23 @@ class ConsultaControlador
     public static function ListaConsultas()
 
     {
-       
-     foreach (var_dump(ConsultaModelo::TraerConsultas()) as $consulta) {
-     $html .= "\n<p> {$consulta->NombreUsuario} '> {$consulta->ApellidoUsuario} {$consulta->Tema} </p>";
+        $html = "";
+        $CedulaDeUsuario = $_SESSION['USER']->CedulaUsuario;
+  
+        foreach (ConsultaModelo::TraerConsultas($CedulaDeUsuario) as $consulta) {
+            $html = <<<HTML
+            <tr>
+                <td>{$consulta->NombreUsuario} {$consulta->ApellidoUsuario}</td>
+                <td>{$consulta->Tema}</td>
+                <td>{$consulta->FechaYHora}</td>
+                <td>{$consulta->Estado}</td>
+            </tr>
+            HTML;
+            echo $html;
         }
-        $html .= <<<HTML
-        </select>
-        </div>
-        HTML;
-        echo $html;
+      
     }
-    
+
 
 
     public static function DropDownDocentes()

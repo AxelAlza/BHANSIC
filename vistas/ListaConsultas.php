@@ -20,25 +20,22 @@ $usuario = $_SESSION['USER'];
   <div class="container">
     <?php Informes::EspacioInformes($parametros); ?>
     <form method="POST">
-      
-    <h1>Listado de Consultas</h1>
 
-<table>
-<tr>
-  <td><strong>Docente</strong></td>
-  <td><strong>Alumno</strong></td>
-  <td><strong>Horario</strong></td>
-</tr>
+      <h1>Listado de Consultas</h1>
 
-<tr>
-  <td><?php ConsultaControlador::ListaConsultas();?></td>
-  
-</tr>
-
-
-
-    </form>
-  </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Destinatario</th>
+            <th scope="col">Tema</th>
+            <th scope="col">Fecha de emision</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php ConsultaControlador::ListaConsultas(); ?>
+        </tbody>
+        </table>
 </body>
 
 </html>
