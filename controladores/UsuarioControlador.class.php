@@ -42,7 +42,7 @@ class UsuarioControlador
         try {
             $usuario = self::GenerarUsuarioPorPost();
             $usuario->Guardar(false);
-           
+            return generarHtml('Registrarse', ['exito' => true]);
         } catch (Exception $e) {
             error_log($e->getMessage());
             return generarHtml('Registrarse', ['exito' => false]);
