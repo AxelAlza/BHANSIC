@@ -22,11 +22,14 @@ $usuario = $_SESSION['USER'];
     <form method="POST">
 
       <h1>Listado de Consultas</h1>
-
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Destinatario</th>
+            <?php if ($_SESSION['USER']->Tipo == "0") : ?>
+              <th scope="col">Destinatario</th>
+            <?php else : ?>
+              <th scope="col">Emisor</th>
+            <?php endif; ?>
             <th scope="col">Tema</th>
             <th scope="col">Fecha de emision</th>
             <th scope="col">Estado</th>
@@ -36,7 +39,9 @@ $usuario = $_SESSION['USER'];
         <tbody>
           <?php ConsultaControlador::ListaConsultas(); ?>
         </tbody>
-        </table>
+      </table>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
 
 </html>

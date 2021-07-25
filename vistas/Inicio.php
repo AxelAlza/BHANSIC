@@ -20,8 +20,7 @@ $u = $_SESSION['USER'];
 
 <body>
 
-    <?php generarHtml("NavBar", null); ?>
-
+    <?php generarHtml('NavBar', null); ?>
     <div class="jumbotron">
         <?php Informes::EspacioInformes($parametros); ?>
         <h1 class="display-4">Bienvenido</h1>
@@ -35,9 +34,9 @@ $u = $_SESSION['USER'];
         <?php endif; ?>
         <p><?= $u->NombreUsuario . " " . $u->ApellidoUsuario ?></p>
     </div>
-    <!--NavBar-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="static/js/bootstrap.bundle.min.js"></script>
-</body>
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

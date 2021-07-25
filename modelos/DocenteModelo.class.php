@@ -14,16 +14,18 @@ class DocenteModelo extends UsuarioModelo
     public function Guardar(bool $modificar)
     {
         parent::Guardar($modificar);
-        $this->prepararInsert();
-        $this->sentencia->execute();
-        if ($this->sentencia->error) {
-            throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
+        if ($modificar == false) {
+            $this->prepararInsert();
+            $this->sentencia->execute();
+            if ($this->sentencia->error) {
+                throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
+            }
         }
     }
     #Sobreescrito
     private function prepararAutenticacion()
     {
-        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario FROM Docentes INNER JOIN Usuarios on Docentes.CedulaDocente = Usuarios.CedulaUsuario  WHERE CedulaDocente = ?";
+        $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario FROM Docentes INNER JOIN Usuarios on Docentes.CedulaDocente = Usuarios.CedulaUsuario  WHERE CedulaDocente = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param("i", $this->CedulaUsuario);
     }
@@ -49,9 +51,10 @@ class DocenteModelo extends UsuarioModelo
         if ($sentencia->error) {
             throw new Exception("Error al traer los docentes: " . $sentencia->error);
         }
-        while ($docente = mysqli_fetch_object($resultado , "DocenteModelo")) {
+        while ($docente = mysqli_fetch_object($resultado, "DocenteModelo")) {
             array_push($docentes, $docente);
         }
         return $docentes;
+        $conexion->close();
     }
 }

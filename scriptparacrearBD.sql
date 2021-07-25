@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Consultas` (
   `CedulaDocente` DECIMAL(8,0) NOT NULL,
   `FechaYHora` DATETIME NULL DEFAULT NULL,
   `Tema` VARCHAR(45) NULL DEFAULT NULL,
-  `Estado` VARCHAR(45) NULL DEFAULT NULL,
+  `Estado` ENUM('Realizada', 'Contestada', 'Recibida') NULL DEFAULT NULL,
   PRIMARY KEY (`IdConsulta`, `CedulaAlumno`, `CedulaDocente`),
   INDEX `DocenteConsulta_idx` (`CedulaDocente` ASC),
   INDEX `AlumnoConsulta` (`CedulaAlumno` ASC),
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Consultas` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 17
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -342,7 +342,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Respuestas` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 46
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -384,6 +384,23 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 USE `mydb` ;
+
+-- -----------------------------------------------------
+-- procedure AñadirRespuesta
+-- -----------------------------------------------------
+
+USE `mydb`;
+DROP procedure IF EXISTS `mydb`.`AñadirRespuesta`;
+
+DELIMITER $$
+USE `mydb`$$
+CREATE DEFINER=`root`@`%` PROCEDURE `AñadirRespuesta`(ciuser int ,conten varchar(225),FH datetime ,cia int , cid int,idc int)
+BEGIN
+insert into Respuestas(CedulaUsuario,Contenido,FechaYHoraEmision) values (ciuser,conten,FH);
+insert into RespuestasConsulta(CedulaAlumno,CedulaDocente,IdRespuesta,IdConsulta) values (cia,cid,last_insert_id(),idc);
+END$$
+
+DELIMITER ;
 
 -- -----------------------------------------------------
 -- procedure CrearConsulta

@@ -21,6 +21,9 @@ abstract class UsuarioModelo extends Modelo
     }
     private function prepararInsert()
     {
+        if(empty($this->FotoUsuario)){
+            $this->FotoUsuario = "/default.jpg";
+        }
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
         $sql = "INSERT INTO Usuarios(CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario,AvatarUsuario) VALUES (?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);

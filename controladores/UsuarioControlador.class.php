@@ -26,14 +26,20 @@ class UsuarioControlador
     public static function ModificacionDeUsuario()
     {
         try {
+            $foto = $_FILES['foto'];
             $usuario = self::GenerarUsuarioPorPost();
+            if ($foto['error'] == UPLOAD_ERR_OK) {
+                $ruta = Contenido::GuardarImagen($foto);
+                $usuario->FotoUsuario = $ruta;
+            } else {
+                $ruta = "/default.jpg";
+            }
             $usuario->Guardar(true);
             SesionControlador::ActualizarSesion($usuario);
-            Informes::InformarExito("Se modifico el usuario correctamente" , "PerfilUsuario");
+            Informes::InformarExito("Se modifico el usuario correctamente", "PerfilUsuario");
         } catch (Exception $e) {
             error_log($e->getMessage());
-            Informes::InformarErrores("Hubo un error al modificar al usuario" , "PerfilUsuario");
-            return generarHtml('PerfilUsuario', ['exito' => false]);
+            Informes::InformarErrores("Hubo un error al modificar al usuario" .$e->getMessage(), "PerfilUsuario");
         }
     }
 
@@ -42,10 +48,10 @@ class UsuarioControlador
         try {
             $usuario = self::GenerarUsuarioPorPost();
             $usuario->Guardar(false);
-           
+            Informes::InformarExito("Se registro con exito", "Registrarse");
         } catch (Exception $e) {
             error_log($e->getMessage());
-            return generarHtml('Registrarse', ['exito' => false]);
+            Informes::InformarErrores("Hubo un error al registrarse", "Registrarse");
         }
     }
 
@@ -58,7 +64,7 @@ class UsuarioControlador
             header("Location: /");
         } catch (Exception $e) {
             error_log($e->getMessage());
-            Informes::InformarErrores("Hubo un error al autenticarse" , "Login");
+            Informes::InformarErrores("Hubo un error al autenticarse", "Login");
         }
     }
 }

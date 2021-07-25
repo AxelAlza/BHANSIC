@@ -3,4 +3,6 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)$ rutas.php [QSA,L]
+RewriteCond %{REQUEST_URI} ^/static/img/.*$
+RewriteRule ^(.*)$ - [L,NC]
 DirectoryIndex rutas.php

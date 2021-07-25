@@ -17,13 +17,7 @@ $usuario = $_SESSION['USER'];
   <?php generarHtml("NavBar", null); ?>
 
   <div class="container">
-    
-  
     <?php Informes::EspacioInformes($parametros); ?>
-
-    <a href="/ListaConsultas">
-            <p>Mis consultas</p>
-   </a>
     <form method="POST">
       <div class="row ">
         <div class="col-3">
@@ -34,7 +28,6 @@ $usuario = $_SESSION['USER'];
       <div class="row form-group">
         <?php ConsultaControlador::DropDownDocentes(); ?>
       </div>
-
       <div class="row form-group">
         <div class="col-12 align-self-center">
           <div class="form-floating">
@@ -43,11 +36,11 @@ $usuario = $_SESSION['USER'];
           </div>
         </div>
       </div>
-
       <button class="btn btn-primary" type="submit">Hacer consulta</button>
+    </form>
   </div>
-
-  </form>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -16,14 +16,14 @@ require '../utils/autoloader.php';
 <body>
 
     <div class="container">
-    <a href="/Registrarse">
-        <p>Registrarse</p>
-    </a>
-        <?php Informes::EspacioInformes($parametros);?>
+        <a href="/Registrarse">
+            <p>Registrarse</p>
+        </a>
+        <?php Informes::EspacioInformes($parametros); ?>
         <form method="POST">
             <div class="mb-3">
                 <label for="CedulaUsuario" class="form-label">Cedula</label>
-                <input type="number" class="form-control" name="CedulaUsuario"  id="CedulaUsuario">
+                <input type="number" class="form-control" name="CedulaUsuario" id="CedulaUsuario">
             </div>
             <div class="mb-3">
                 <label for="ContraseñaUsuario" class="form-label">Contraseña</label>
@@ -43,8 +43,9 @@ require '../utils/autoloader.php';
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="static/js/bootstrap.bundle.min.js"></script>
+
 
 </html>

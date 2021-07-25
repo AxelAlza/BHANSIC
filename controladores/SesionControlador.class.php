@@ -3,6 +3,7 @@ require '../utils/autoloader.php';
 
 class SesionControlador
 {
+
     public static function CrearSesion($usuario)
     {
         ob_start();
@@ -12,7 +13,7 @@ class SesionControlador
     public static function CerrarSesion()
     {
         session_destroy();
-        header("Location: /");
+        header("Location: /Login");
     }
 
     public static function ActualizarSesion($usuario){
