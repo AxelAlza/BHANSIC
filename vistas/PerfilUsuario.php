@@ -36,7 +36,7 @@ $usuario = $_SESSION['USER'];
           <input type="text" class="form-control" name="NombreUsuario" id="NombreUsuario" value=<?= $usuario->NombreUsuario ?>>
         </div>
         <div class="col-md-4">
-          <img src="<?=$usuario->FotoUsuario?>" class="img-thumbnail img-fluid" style="height: 100px; width:100px; position:fixed">
+          <img src="<?= $usuario->FotoUsuario ?>" class="img-thumbnail img-fluid" style="height: 100px; width:100px; position:fixed">
         </div>
       </div>
       <div class="row">
@@ -45,6 +45,20 @@ $usuario = $_SESSION['USER'];
           <input type="text" class="form-control" name="ApellidoUsuario" id="ApellidoUsuario" value=<?= $usuario->ApellidoUsuario ?>>
         </div>
       </div>
+      <?php if ($usuario->Tipo == "1") : ?>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="HD" class="form-label">Abierto a consultas desde</label>
+            <input type="time" class="form-control" name="HorarioDeConsultasDesde" id="HD" value="<?=$usuario->HorarioDeConsultasDesde?>">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="HA" class="form-label">Abierto a consultas Hasta</label>
+            <input type="time" class="form-control" name="HorarioDeConsultasHasta" id="HA">
+          </div>
+        </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-md-4">
           <button class="btn btn-primary " type="submit">Modificar</button>

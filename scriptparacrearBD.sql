@@ -112,8 +112,8 @@ DROP TABLE IF EXISTS `mydb`.`Docentes` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`Docentes` (
   `CedulaDocente` DECIMAL(8,0) NOT NULL,
-  `HorarioDeConsultasDesde` INT(11) NULL DEFAULT NULL,
-  `HorarioDeConsultasHasta` INT(11) NULL DEFAULT NULL,
+  `HorarioDeConsultasDesde` TIME NULL DEFAULT NULL,
+  `HorarioDeConsultasHasta` TIME NULL DEFAULT NULL,
   `UltimaFechayHoraConexion` DATETIME NULL DEFAULT NULL,
   `UltimaFechaYHoraDesconexion` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`CedulaDocente`),

@@ -3,6 +3,10 @@ require '../utils/autoloader.php';
 class DocenteModelo extends UsuarioModelo
 {
 
+    public $HorarioDeConsultasDesde;
+    public $HorarioDeConsultasHasta;
+    public $UltimaFechaYHoraConexion;
+    public $UltimaFechaYHoraDesconexion;
 
     #Sobreescrito
     public function Autenticar()
@@ -10,16 +14,18 @@ class DocenteModelo extends UsuarioModelo
         $this->prepararAutenticacion();
         parent::Autenticar();
     }
+
+
+
+
     #Sobreescrito
     public function Guardar(bool $modificar)
     {
         parent::Guardar($modificar);
-        if ($modificar == false) {
-            $this->prepararInsert();
-            $this->sentencia->execute();
-            if ($this->sentencia->error) {
-                throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
-            }
+        $modificar ? $this->prepararUpdate() : $this->prepararInsert();
+        $this->sentencia->execute();
+        if ($this->sentencia->error) {
+            throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
     #Sobreescrito
@@ -36,6 +42,23 @@ class DocenteModelo extends UsuarioModelo
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
             "i",
+            $this->CedulaUsuario
+        );
+    }
+
+    private function prepararUpdate()
+    {
+        $sql = <<<SQL
+        update Docentes set HorarioDeConsultasDesde = ? , HorarioDeConsultasHasta = ?
+        where CedulaDocente = ?;
+        SQL;
+        $HDesde = date('H:i:s', strtotime($this->HorarioDeConsultasDesde));
+        $HHasta = date('H:i:s', strtotime($this->HorarioDeConsultasHasta));
+        $this->sentencia = $this->conexion->prepare($sql);
+        $this->sentencia->bind_param(
+            "ssi",
+            $HDesde,
+            $HHasta,
             $this->CedulaUsuario
         );
     }
