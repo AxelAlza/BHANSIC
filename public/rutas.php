@@ -20,10 +20,6 @@ if(Contenido::esContenidoEstatico($request)){
 }
 
 switch (strtok($request, '?')) {
-    case '/prueba':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Imagen');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') cargarVista('Imagen');
-        break;
     case '/':
         if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'Inicio');
         break;
@@ -31,7 +27,6 @@ switch (strtok($request, '?')) {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'PerfilUsuario');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') NecesitaAutenticacion('UsuarioControlador::ModificacionDeUsuario', null);
         break;
-
     case '/Desloguearse':
         SesionControlador::CerrarSesion();
         break;

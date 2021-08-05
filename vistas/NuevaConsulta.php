@@ -19,21 +19,19 @@ $usuario = $_SESSION['USER'];
   <div class="container">
     <?php Informes::EspacioInformes($parametros); ?>
     <form method="POST">
-      <div class="row ">
+      <div class="row p-3">
         <div class="col-3">
           <label for="Tema" class="form-label">Tema</label>
           <input type="text" class="form-control" name="Tema" id="Tema">
         </div>
       </div>
-      <div class="row form-group">
+      <div class="row p-3">
         <?php ConsultaControlador::DropDownDocentes(); ?>
       </div>
-      <div class="row form-group">
-        <div class="col-12 align-self-center">
-          <div class="form-floating">
-            <label for="Contenido">Consulta</label>
-            <textarea class="form-control" placeholder="Escriba el contenido de la consulta" id="Contenido" name="Contenido"></textarea>
-          </div>
+      <div class="row p-3">
+        <div class="mb-3">
+          <label for="Contenido">Contenido</label>
+          <textarea class="form-control" placeholder="Escriba el contenido de la consulta" id="Contenido" name="Contenido"></textarea>
         </div>
       </div>
       <button class="btn btn-primary" type="submit">Hacer consulta</button>

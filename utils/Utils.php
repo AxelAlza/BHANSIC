@@ -41,8 +41,8 @@ class Contenido
         $tmpdir = $foto['tmp_name'];
         $ext = pathinfo($foto['name'], PATHINFO_EXTENSION);
         $filename = uniqid("Img_") . "." . $ext;
-        move_uploaded_file($tmpdir, self::$StaticRootDir . "/img" . $filename);
-        return "/static/img" . $filename;
+        move_uploaded_file($tmpdir, self::$StaticRootDir."/static/img/". $filename);
+        return "/static/img/" . $filename;
     }
 }
 

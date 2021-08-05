@@ -86,7 +86,7 @@ class ConsultaControlador
     public static function DropDownDocentes()
     {
         $html = <<<HTML
-        <div class="col-3 ">
+        <div class="col-3">
         <label for ="Select">Destinatario</label> 
         <select id ="Select" name ="CedulaDocente" class="form-select" aria-label="Seleccionar">
         HTML;
@@ -125,7 +125,7 @@ class ConsultaControlador
         $consulta = self::$consulta;
         foreach ($consulta->Contenidos as $content) {
             $html = <<<HTML
-                <div class ="form-floating">
+                <div class = "container">
                 <img src="{$content->FotoUsuario}" class="img-thumbnail img-fluid" style="height: 50px; width:50px;">
                 <label>{$content->FechaYHoraEmision}</label>
                 <label>{$content->NombreUsuario} {$content->ApellidoUsuario} Dijo: </label>
