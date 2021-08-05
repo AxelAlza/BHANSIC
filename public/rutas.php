@@ -12,11 +12,10 @@ function NecesitaAutenticacion($func, $param)
     }
 }
 
-
 if(Contenido::esContenidoEstatico($request)){
     
     $contenido = Contenido::cargarContenido($request);
-    header("Content-Type: *".$contenido['contentType']);
+    header("Content-Type: ".$contenido['contentType']);
     echo $contenido['contenido'];
 }
 

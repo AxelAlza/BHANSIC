@@ -6,7 +6,7 @@ require '../utils/autoloader.php';
 class Contenido
 {
 
-    private static $DirImg = "/var/www/html/static/img";
+    private static $StaticRootDir = "/var/www/html";
     private static $Extensiones = [
         ".css" => "text/css",
         ".png" => "image/png",
@@ -19,7 +19,6 @@ class Contenido
     {
         foreach (self::$Extensiones as $extension => $v) {
             if (strpos($archivo, $extension) !== false) {
-
                 return true;
             }
         }
@@ -32,7 +31,7 @@ class Contenido
             }
         }
         $contenidoarchivo = [
-            "contenido" => file_get_contents(self::$DirImg . $url),
+            "contenido" => file_get_contents(self::$StaticRootDir . $url),
             "contentType" => $ContentType
         ];
         return $contenidoarchivo;
@@ -42,13 +41,10 @@ class Contenido
         $tmpdir = $foto['tmp_name'];
         $ext = pathinfo($foto['name'], PATHINFO_EXTENSION);
         $filename = uniqid("Img_") . "." . $ext;
-        move_uploaded_file($tmpdir, self::$DirImg . "/" . $filename);
-        return "/" . $filename;
+        move_uploaded_file($tmpdir, self::$StaticRootDir . "/img" . $filename);
+        return "/static/img" . $filename;
     }
 }
-
-
-
 
 class Informes
 {

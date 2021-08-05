@@ -34,7 +34,7 @@ class UsuarioControlador
                 $ruta = Contenido::GuardarImagen($foto);
             }
             if ($foto['error'] == UPLOAD_ERR_NO_FILE) {
-                $ruta = "/default.jpg";
+                $ruta = "static/img/default.jpg";
             }
             $usuario->FotoUsuario = $ruta;
 

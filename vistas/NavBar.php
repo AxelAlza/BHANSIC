@@ -12,15 +12,14 @@
                 <a class="nav-link" href="/Perfil">Perfil</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-target="#Dropdown" data-toggle="collapse" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Consultas
-                </a>
-                <ul class="dropdown-menu" id="Dropdown" aria-labelledby="navbarDropdownMenuLink">
+                </a> 
+                <ul class="dropdown-menu" id="Dropdown" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="/ListaConsultas">Mis consultas</a></li>
                     <?php if ($_SESSION['USER']->Tipo == "0"):?>
                         <li><a class="dropdown-item" href="/NuevaConsulta">Nueva Consulta</a></li>
                     <?php endif; ?>
-                  
                 </ul>
             </li>
             <li class="nav-item">
