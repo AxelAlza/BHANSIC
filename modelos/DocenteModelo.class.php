@@ -1,7 +1,6 @@
 <?php
 require '../utils/autoloader.php';
-class DocenteModelo extends UsuarioModelo
-{
+class DocenteModelo extends UsuarioModelo {
 
     public $HorarioDeConsultasDesde;
     public $HorarioDeConsultasHasta;
@@ -9,18 +8,13 @@ class DocenteModelo extends UsuarioModelo
     public $UltimaFechaYHoraDesconexion;
 
     #Sobreescrito
-    public function Autenticar()
-    {
+    public function Autenticar() {
         $this->prepararAutenticacion();
         parent::Autenticar();
     }
 
-
-
-
     #Sobreescrito
-    public function Guardar(bool $modificar)
-    {
+    public function Guardar(bool $modificar) {
         parent::Guardar($modificar);
         $modificar ? $this->prepararUpdate() : $this->prepararInsert();
         $this->sentencia->execute();
@@ -29,15 +23,13 @@ class DocenteModelo extends UsuarioModelo
         }
     }
     #Sobreescrito
-    private function prepararAutenticacion()
-    {
+    private function prepararAutenticacion() {
         $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario FROM Docentes INNER JOIN Usuarios on Docentes.CedulaDocente = Usuarios.CedulaUsuario  WHERE CedulaDocente = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param("i", $this->CedulaUsuario);
     }
     #Sobreescrito
-    private function prepararInsert()
-    {
+    private function prepararInsert() {
         $sql = "INSERT INTO Docentes (CedulaDocente) values (?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
@@ -46,8 +38,7 @@ class DocenteModelo extends UsuarioModelo
         );
     }
 
-    private function prepararUpdate()
-    {
+    private function prepararUpdate() {
         $sql = <<<SQL
         update Docentes set HorarioDeConsultasDesde = ? , HorarioDeConsultasHasta = ?
         where CedulaDocente = ?;
@@ -63,8 +54,7 @@ class DocenteModelo extends UsuarioModelo
         );
     }
 
-    public static function TraerDocentes()
-    {
+    public static function TraerDocentes() {
         $docentes = array();
         $conexion = ConexionUtil::RetornarConexion();
         $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario FROM Docentes inner join Usuarios on Usuarios.CedulaUsuario = Docentes.CedulaDocente";

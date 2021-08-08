@@ -1,8 +1,7 @@
 <?php
 require '../utils/autoloader.php';
 
-abstract class UsuarioModelo extends Modelo
-{
+abstract class UsuarioModelo extends Modelo {
     public $CedulaUsuario;
     public $NombreUsuario;
     public $ContraseñaUsuario;
@@ -11,17 +10,15 @@ abstract class UsuarioModelo extends Modelo
     public $AvatarUsuario;
     public $Tipo;
 
-    public function Guardar(bool $modificar)
-    {
+    public function Guardar(bool $modificar) {
         $modificar ? $this->prepararUpdate() : $this->prepararInsert();
         $this->sentencia->execute();
         if ($this->sentencia->error) {
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
-    private function prepararInsert()
-    {
-        if(empty($this->FotoUsuario)){
+    private function prepararInsert() {
+        if (empty($this->FotoUsuario)) {
             $this->FotoUsuario = "static/img/default.jpg";
         }
         $this->ContraseñaUsuario = $this->hashearPassword($this->ContraseñaUsuario);
@@ -41,8 +38,7 @@ abstract class UsuarioModelo extends Modelo
 
 
 
-    public function Autenticar()
-    {
+    public function Autenticar() {
         $this->sentencia->execute();
         $resultado = $this->sentencia->get_result()->fetch_assoc();
         if ($this->sentencia->error) {
@@ -58,13 +54,10 @@ abstract class UsuarioModelo extends Modelo
         } else throw new Exception("Error al iniciar sesion");
     }
 
-
-
-    private function prepararUpdate()
-    {
+    private function prepararUpdate() {
         $sql = "UPDATE Usuarios set NombreUsuario = ?, ApellidoUsuario = ?, FotoUsuario = ?, AvatarUsuario = ? where CedulaUsuario = ?";
-        $stmt=$this->sentencia = $this->conexion->prepare($sql);
-        $stmt=$stmt->bind_param(
+        $stmt = $this->sentencia = $this->conexion->prepare($sql);
+        $stmt = $stmt->bind_param(
             "ssssi",
             $this->NombreUsuario,
             $this->ApellidoUsuario,
@@ -75,14 +68,12 @@ abstract class UsuarioModelo extends Modelo
     }
 
 
-    public function compararPasswords($passwordHasheado)
-    {
+    public function compararPasswords($passwordHasheado) {
         return password_verify($this->ContraseñaUsuario, $passwordHasheado);
     }
 
 
-    public function asignarDatosDeUsuario($resultado)
-    {
+    public function asignarDatosDeUsuario($resultado) {
         $this->CedulaUsuario = $resultado['CedulaUsuario'];
         $this->NombreUsuario = $resultado['NombreUsuario'];
         $this->ApellidoUsuario = $resultado['ApellidoUsuario'];
@@ -91,8 +82,7 @@ abstract class UsuarioModelo extends Modelo
         $this->ContraseñaUsuario = "";
     }
 
-    public function hashearPassword($password)
-    {
+    public function hashearPassword($password) {
         return password_hash($password, PASSWORD_DEFAULT);
     }
 }

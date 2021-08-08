@@ -12,7 +12,7 @@ services:
       - ./:/var/www/html
   mysql:
     image: mysql:5.7
-    tty: true 
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-character-set-client-handshake
     ports:
       - "3310:3306"
     restart: unless-stopped 
@@ -23,3 +23,4 @@ services:
       - MYSQL_DATABASE=base
     volumes:
       - ./mysql:/var/lib/mysql
+

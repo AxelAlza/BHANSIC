@@ -1,11 +1,8 @@
 <?php
 
-class ConexionUtil
-{
+class ConexionUtil {
 
-    public static function RetornarConexion()
-
-    {
+    public static function RetornarConexion() {
         $IpDB = IP_DB;
         $NombreUsuarioDB = USUARIO_DB;
         $PasswordDB = PASSWORD_DB;
@@ -21,4 +18,4 @@ class ConexionUtil
         mysqli_set_charset($conexion, 'utf8');
         return $conexion;
     }
- }
+}

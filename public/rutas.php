@@ -1,52 +1,70 @@
 <?php
 require '../utils/autoloader.php';
-
 $request = $_SERVER['REQUEST_URI'];
-
-function NecesitaAutenticacion($func, $param)
-{
-    if (SesionControlador::SeInicioSesion()) {
-        return call_user_func($func, $param);
-    } else {
-        header('Location: /Login');
+class Rutas {
+    public static $Rutas = array();
+    public static function Añadir($uri, $funcion) {
+        self::$Rutas[$uri] = $funcion;
+    }
+    public static function EvaluarRequest($request) {
+        $request = strtok($request, "?");
+        $funcion = self::$Rutas[$request];
+        if (isset($funcion)) $funcion();
+    }
+    public static function EsGET() {
+        return $_SERVER['REQUEST_METHOD'] === "GET";
+    }
+    public static function EsPOST() {
+        return $_SERVER['REQUEST_METHOD'] === "POST";
     }
 }
-
-if(Contenido::esContenidoEstatico($request)){
-    
+if (Contenido::esContenidoEstatico($request)) {
     $contenido = Contenido::cargarContenido($request);
-    header("Content-Type: ".$contenido['contentType']);
+    header("Content-Type: " . $contenido['contentType']);
     echo $contenido['contenido'];
 }
 
-switch (strtok($request, '?')) {
-    case '/':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'Inicio');
-        break;
-    case '/Perfil':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'PerfilUsuario');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') NecesitaAutenticacion('UsuarioControlador::ModificacionDeUsuario', null);
-        break;
-    case '/Desloguearse':
-        SesionControlador::CerrarSesion();
-        break;
-    case '/NuevaConsulta':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'NuevaConsulta');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') NecesitaAutenticacion('ConsultaControlador::CrearConsulta', null);
-        break;
-    case '/ListaConsultas':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'ListaConsultas');
-        break;
-    case '/Registrarse':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Registrarse');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::AltaDeUsuario();
-        break;
-    case '/Login':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') cargarVista('Login');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') UsuarioControlador::LoginDeUsuario();
-        break;
-    case '/DetalleConsulta':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') NecesitaAutenticacion('cargarVista', 'DetalleConsulta');
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') NecesitaAutenticacion('ConsultaControlador::AñadirRespuesta', null);
-        break;
+## Ruteo, Parametros: una ruta , y una funcion que responde a la ruta;
+
+Rutas::Añadir('/Login', function () {
+    if (Rutas::EsGET() === 'GET') cargarVista('Login');
+    if (Rutas::EsPOST()) UsuarioControlador::LoginDeUsuario();
+});
+Rutas::Añadir("/", function () {
+    NecesitaAutenticacion();
+    if (Rutas::EsGET()) cargarVista('Inicio');
+});
+Rutas::Añadir("/Perfil", function () {
+    NecesitaAutenticacion();
+    if (Rutas::EsGET()) cargarVista('PerfilUsuario');
+    if (Rutas::EsPOST()) UsuarioControlador::ModificacionDeUsuario();
+});
+Rutas::Añadir("/Desloguearse", 'SesionControlador::CerrarSesion');
+Rutas::Añadir('/NuevaConsulta', function () {
+    NecesitaAutenticacion();
+    if (Rutas::EsGET()) cargarVista('NuevaConsulta');
+    if (Rutas::EsPOST()) ConsultaControlador::CrearConsulta();
+});
+Rutas::Añadir("/ListaConsultas", function () {
+    NecesitaAutenticacion();
+    if (Rutas::EsGET()) cargarVista("ListaConsultas");
+});
+Rutas::Añadir("/Registrarse", function () {
+    if (Rutas::EsGET()) cargarVista('Registrarse');
+    if (Rutas::EsPOST()) UsuarioControlador::AltaDeUsuario();
+});
+Rutas::Añadir("/DetalleConsulta", function () {
+    NecesitaAutenticacion();
+    if (Rutas::EsGET()) cargarVista('DetalleConsulta');
+    if (Rutas::EsPOST()) ConsultaControlador::AñadirRespuesta();
+});
+
+Rutas::EvaluarRequest($request);
+
+function NecesitaAutenticacion() {
+    if (SesionControlador::SeInicioSesion()) {
+        return;
+    } else {
+        header('Location: /Login');
+    }
 }

@@ -1,12 +1,10 @@
 <?php
 
-class ConsultaControlador
-{
+class ConsultaControlador {
 
     static ConsultaModelo $consulta;
 
-    public static function CrearConsulta()
-    {
+    public static function CrearConsulta() {
         try {
             $usuario = $_SESSION['USER'];
             $consulta = new ConsultaModelo();
@@ -23,8 +21,7 @@ class ConsultaControlador
         }
     }
 
-    public static function AñadirRespuesta()
-    {
+    public static function AñadirRespuesta() {
         try {
             self::$consulta = new ConsultaModelo();
             self::$consulta->CedulaAlumno = intval($_POST['CedulaAlumno']);
@@ -41,8 +38,7 @@ class ConsultaControlador
         }
     }
 
-    public static function ListaConsultas()
-    {
+    public static function ListaConsultas() {
         $html = "";
         $CedulaDeUsuario = $_SESSION['USER']->CedulaUsuario;
         $Tipo = $_SESSION['USER']->Tipo;
@@ -66,8 +62,7 @@ class ConsultaControlador
         return $consultas;
     }
 
-    public static function DetalleConsulta()
-    {
+    public static function DetalleConsulta() {
         try {
             self::$consulta = new ConsultaModelo();
             self::$consulta->CedulaAlumno = intval($_GET['CedulaAlumno']);
@@ -83,8 +78,7 @@ class ConsultaControlador
         }
     }
 
-    public static function DropDownDocentes()
-    {
+    public static function DropDownDocentes() {
         $html = <<<HTML
         <div class="col-3">
         <label for ="Select">Destinatario</label> 
@@ -100,8 +94,7 @@ class ConsultaControlador
         echo $html;
     }
 
-    public static function DisplayInfoConsulta()
-    {
+    public static function DisplayInfoConsulta() {
 
         if ($_SESSION['USER']->Tipo == "0") {
             $d = "Para";
@@ -120,8 +113,7 @@ class ConsultaControlador
         echo $html;
     }
 
-    public static function DisplayContenidos()
-    {
+    public static function DisplayContenidos() {
         $consulta = self::$consulta;
         foreach ($consulta->Contenidos as $content) {
             $html = <<<HTML

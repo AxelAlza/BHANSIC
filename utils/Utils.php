@@ -3,8 +3,7 @@ require '../utils/autoloader.php';
 
 
 
-class Contenido
-{
+class Contenido {
 
     private static $StaticRootDir = "/var/www/html";
     private static $Extensiones = [
@@ -15,16 +14,14 @@ class Contenido
         ".pdf" => "document/pdf",
         ".js" => "text/js"
     ];
-    static function esContenidoEstatico($archivo)
-    {
+    static function esContenidoEstatico($archivo) {
         foreach (self::$Extensiones as $extension => $v) {
             if (strpos($archivo, $extension) !== false) {
                 return true;
             }
         }
     }
-    static function cargarContenido($url)
-    {
+    static function cargarContenido($url) {
         foreach (self::$Extensiones as $extension => $contenido) {
             if (strpos($url, $extension) !== false) {
                 $ContentType = $contenido;
@@ -36,30 +33,25 @@ class Contenido
         ];
         return $contenidoarchivo;
     }
-    static function GuardarImagen($foto)
-    {
+    static function GuardarImagen($foto) {
         $tmpdir = $foto['tmp_name'];
         $ext = pathinfo($foto['name'], PATHINFO_EXTENSION);
         $filename = uniqid("Img_") . "." . $ext;
-        move_uploaded_file($tmpdir, self::$StaticRootDir."/static/img/". $filename);
+        move_uploaded_file($tmpdir, self::$StaticRootDir . "/static/img/" . $filename);
         return "/static/img/" . $filename;
     }
 }
 
-class Informes
-{
-    public static function InformarErrores($msg, $vista)
-    {
+class Informes {
+    public static function InformarErrores($msg, $vista) {
         return generarHtml($vista, ['exito' => false, 'msg' => $msg]);
     }
 
-    public static function InformarExito($msg, $vista)
-    {
+    public static function InformarExito($msg, $vista) {
         return generarHtml($vista, ['exito' => true, 'msg' => $msg]);
     }
 
-    public static function EspacioInformes($parametros)
-    {
+    public static function EspacioInformes($parametros) {
 
         $exito = $parametros['exito'];
         $msg = $parametros['msg'];

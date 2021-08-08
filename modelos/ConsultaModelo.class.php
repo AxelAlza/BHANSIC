@@ -2,8 +2,7 @@
 require '../utils/autoloader.php';
 $_SESSION['USER'];
 
-class ConsultaModelo extends Modelo
-{
+class ConsultaModelo extends Modelo {
     public $Emisor;
     public $IdConsulta;
     public $CedulaAlumno;
@@ -14,8 +13,7 @@ class ConsultaModelo extends Modelo
     public $Contenidos;
 
 
-    public function Guardar()
-    {
+    public function Guardar() {
         $this->prepararInsert();
         $this->sentencia->execute();
 
@@ -23,8 +21,7 @@ class ConsultaModelo extends Modelo
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
-    public function AñadirRespuesta($ciuser)
-    {
+    public function AñadirRespuesta($ciuser) {
         $sql = "CALL AñadirRespuesta(?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
@@ -39,8 +36,7 @@ class ConsultaModelo extends Modelo
         $this->sentencia->execute();
     }
 
-    public function ActualizarEstado()
-    {
+    public function ActualizarEstado() {
         $estado = "";
         $tipo = $_SESSION['USER']->Tipo;
         $sql = <<<SQL
@@ -63,8 +59,7 @@ class ConsultaModelo extends Modelo
         $this->sentencia->execute();
     }
 
-    private function prepararInsert()
-    {
+    private function prepararInsert() {
         $sql = "CALL CrearConsulta(?,?,?,?,?,?)";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
@@ -79,8 +74,7 @@ class ConsultaModelo extends Modelo
     }
 
 
-    public function TraerDetalleDeConsulta()
-    {
+    public function TraerDetalleDeConsulta() {
         $this->Contenidos = array();
         $sql = <<<SQL
         Select FotoUsuario,Respuestas.CedulaUsuario,Contenido,NombreUsuario,ApellidoUsuario,FechaYHoraEmision 
@@ -107,8 +101,7 @@ class ConsultaModelo extends Modelo
     }
 
 
-    public static function TraerConsultas($cedula, $tipo)
-    {
+    public static function TraerConsultas($cedula, $tipo) {
         $consultas = array();
         $conexion = ConexionUtil::RetornarConexion();
         $sql = <<<SQL
@@ -136,8 +129,7 @@ class ConsultaModelo extends Modelo
         return $consultas;
     }
 
-    public function TraerDatos($tipo)
-    {
+    public function TraerDatos($tipo) {
         $sql = <<<SQL
         select NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado 
         from Consultas INNER join Usuarios on
@@ -160,8 +152,7 @@ class ConsultaModelo extends Modelo
         $this->AsignarDatosConsulta($resultado);
     }
 
-    private function AsignarDatosConsulta($resultado)
-    {
+    private function AsignarDatosConsulta($resultado) {
         $this->Emisor = $resultado['NombreUsuario'] . " " . $resultado['ApellidoUsuario'];
         $this->Tema = $resultado['Tema'];
         $this->FechaYHora = $resultado['FechaYHora'];

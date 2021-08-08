@@ -1,30 +1,27 @@
 <?php
 require '../utils/autoloader.php';
 
-class SesionControlador
-{
+class SesionControlador {
 
-    public static function CrearSesion($usuario)
-    {
+    public static function CrearSesion($usuario) {
         ob_start();
         $_SESSION['USER'] = $usuario;
     }
 
-    public static function CerrarSesion()
-    {
+    public static function CerrarSesion() {
         session_destroy();
         header("Location: /Login");
     }
 
-    public static function ActualizarSesion($usuario){
+    public static function ActualizarSesion($usuario) {
         $_SESSION['USER'] = $usuario;
     }
 
-    public static function RetornarUsuarioSesion(){
+    public static function RetornarUsuarioSesion() {
         return $_SESSION['USER'];
     }
 
-    public static function SeInicioSesion(){
+    public static function SeInicioSesion() {
         return isset($_SESSION['USER']);
     }
 }

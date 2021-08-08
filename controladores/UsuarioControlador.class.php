@@ -2,10 +2,8 @@
 
 require '../utils/autoloader.php';
 
-class UsuarioControlador
-{
-    private static function GenerarUsuarioPorPost()
-    {
+class UsuarioControlador {
+    private static function GenerarUsuarioPorPost() {
         isset($_SESSION['USER']) ? $Tipo = $_SESSION['USER']->Tipo : $Tipo = $_POST['Tipo'];
         if (!isset($Tipo)) {
             throw new Exception("No se pudo conseguir el tipo de usuario");
@@ -25,8 +23,7 @@ class UsuarioControlador
         return $usuario;
     }
 
-    public static function ModificacionDeUsuario()
-    {
+    public static function ModificacionDeUsuario() {
         try {
             $foto = $_FILES['foto'];
             $usuario = self::GenerarUsuarioPorPost();
@@ -47,8 +44,7 @@ class UsuarioControlador
         }
     }
 
-    public static function AltaDeUsuario()
-    {
+    public static function AltaDeUsuario() {
         try {
             $usuario = self::GenerarUsuarioPorPost();
             $usuario->Guardar(false);
@@ -59,8 +55,7 @@ class UsuarioControlador
         }
     }
 
-    public static function LoginDeUsuario()
-    {
+    public static function LoginDeUsuario() {
         try {
             $usuario = self::GenerarUsuarioPorPost();
             $usuario->Autenticar();
