@@ -12,10 +12,11 @@ class Rutas {
         if (isset($funcion)) $funcion();
     }
     public static function EsGET() {
-        return $_SERVER['REQUEST_METHOD'] === "GET";
+        $bool = $_SERVER['REQUEST_METHOD']=="GET";
+        return $_SERVER['REQUEST_METHOD']=="GET";
     }
     public static function EsPOST() {
-        return $_SERVER['REQUEST_METHOD'] === "POST";
+        return $_SERVER['REQUEST_METHOD'] =="POST";
     }
 }
 if (Contenido::esContenidoEstatico($request)) {
@@ -27,7 +28,7 @@ if (Contenido::esContenidoEstatico($request)) {
 ## Ruteo, Parametros: una ruta , y una funcion que responde a la ruta;
 
 Rutas::Añadir('/Login', function () {
-    if (Rutas::EsGET() === 'GET') cargarVista('Login');
+    if (Rutas::EsGET()) cargarVista('Login');
     if (Rutas::EsPOST()) UsuarioControlador::LoginDeUsuario();
 });
 Rutas::Añadir("/", function () {
