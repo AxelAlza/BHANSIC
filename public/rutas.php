@@ -12,7 +12,6 @@ class Rutas {
         if (isset($funcion)) $funcion();
     }
     public static function EsGET() {
-        $bool = $_SERVER['REQUEST_METHOD']=="GET";
         return $_SERVER['REQUEST_METHOD']=="GET";
     }
     public static function EsPOST() {
