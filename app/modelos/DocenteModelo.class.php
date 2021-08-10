@@ -1,5 +1,5 @@
 <?php
-require '../utils/autoloader.php';
+require '../framework/autoloader.php';
 class DocenteModelo extends UsuarioModelo {
 
     public $HorarioDeConsultasDesde;
@@ -14,14 +14,24 @@ class DocenteModelo extends UsuarioModelo {
     }
 
     #Sobreescrito
-    public function Guardar(bool $modificar) {
-        parent::Guardar($modificar);
-        $modificar ? $this->prepararUpdate() : $this->prepararInsert();
+    public function Guardar() {
+        parent::Guardar();
+        $this->prepararInsert();
         $this->sentencia->execute();
         if ($this->sentencia->error) {
             throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
         }
     }
+
+    public function Modificar() {
+        parent::Modificar();
+        $this->prepararUpdate();
+        $this->sentencia->execute();
+        if ($this->sentencia->error) {
+            throw new Exception("Hubo un problema al cargar el usuario: " . $this->sentencia->error);
+        }
+    }
+
     #Sobreescrito
     private function prepararAutenticacion() {
         $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario,ContraseñaUsuario,FotoUsuario FROM Docentes INNER JOIN Usuarios on Docentes.CedulaDocente = Usuarios.CedulaUsuario  WHERE CedulaDocente = ?";
@@ -54,11 +64,10 @@ class DocenteModelo extends UsuarioModelo {
         );
     }
 
-    public static function TraerDocentes() {
+    public function TraerDocentes() {
         $docentes = array();
-        $conexion = ConexionUtil::RetornarConexion();
         $sql = "SELECT CedulaUsuario,NombreUsuario,ApellidoUsuario FROM Docentes inner join Usuarios on Usuarios.CedulaUsuario = Docentes.CedulaDocente";
-        $sentencia = $conexion->prepare($sql);
+        $sentencia = $this->conexion->prepare($sql);
         $sentencia->execute();
         $resultado = $sentencia->get_result();
         if ($sentencia->error) {
@@ -68,6 +77,5 @@ class DocenteModelo extends UsuarioModelo {
             array_push($docentes, $docente);
         }
         return $docentes;
-        $conexion->close();
     }
 }

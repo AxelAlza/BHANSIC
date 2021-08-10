@@ -1,17 +1,12 @@
 <?php
-require '../utils/autoloader.php';
+require '../framework/autoloader.php';
 $usuario = $_SESSION['USER'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/static/css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-  <title>PerfilUsuario</title>
-</head>
+
+<?php generarHtml('header', 'DetalleConsulta'); ?>
 
 <body>
 
@@ -45,20 +40,6 @@ $usuario = $_SESSION['USER'];
           <input type="text" class="form-control" name="ApellidoUsuario" id="ApellidoUsuario" value=<?= $usuario->ApellidoUsuario ?>>
         </div>
       </div>
-      <?php if ($usuario->Tipo == "1") : ?>
-        <div class="row">
-          <div class="col-md-4">
-            <label for="HD" class="form-label">Abierto a consultas desde</label>
-            <input type="time" class="form-control" name="HorarioDeConsultasDesde" id="HD" value="<?=$usuario->HorarioDeConsultasDesde?>">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <label for="HA" class="form-label">Abierto a consultas Hasta</label>
-            <input type="time" class="form-control" name="HorarioDeConsultasHasta" id="HA">
-          </div>
-        </div>
-      <?php endif; ?>
       <div class="row">
         <div class="col-md-4">
           <button class="btn btn-primary " type="submit">Modificar</button>
@@ -67,7 +48,6 @@ $usuario = $_SESSION['USER'];
     </form>
   </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="/static/js/bootstrap.bundle.min.js"></script>
+<?php generarHtml('importarjs' , null);?>
 
 </html>

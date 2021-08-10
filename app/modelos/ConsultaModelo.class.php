@@ -1,5 +1,5 @@
 <?php
-require '../utils/autoloader.php';
+require '../framework/autoloader.php';
 $_SESSION['USER'];
 
 class ConsultaModelo extends Modelo {
@@ -37,18 +37,12 @@ class ConsultaModelo extends Modelo {
     }
 
     public function ActualizarEstado() {
-        $estado = "";
-        $tipo = $_SESSION['USER']->Tipo;
         $sql = <<<SQL
             update Consultas set Estado = ?
             where IdConsulta = ? and CedulaAlumno = ? and CedulaDocente = ?;
             SQL;
         $this->sentencia = $this->conexion->prepare($sql);
-        if ($tipo == "1") {
-            $estado = "Contestada";
-        } else {
-            $estado = "Recibida";
-        }
+        $estado = "Recibida";
         $this->sentencia->bind_param(
             "siii",
             $estado,
@@ -73,7 +67,6 @@ class ConsultaModelo extends Modelo {
         );
     }
 
-
     public function TraerDetalleDeConsulta() {
         $this->Contenidos = array();
         $sql = <<<SQL
@@ -85,7 +78,6 @@ class ConsultaModelo extends Modelo {
         on Respuestas.CedulaUsuario = Usuarios.CedulaUsuario
         where CedulaAlumno = ? and CedulaDocente = ? and IdConsulta = ?;
         SQL;
-
         $sentencia = $this->conexion->prepare($sql);
         $sentencia->bind_param(
             "iii",
@@ -101,23 +93,15 @@ class ConsultaModelo extends Modelo {
     }
 
 
-    public static function TraerConsultas($cedula, $tipo) {
+    public function TraerConsultas($cedula) {
         $consultas = array();
-        $conexion = ConexionUtil::RetornarConexion();
         $sql = <<<SQL
         SELECT Consultas.CedulaDocente,IdConsulta,Consultas.CedulaAlumno,NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado 
-        from Consultas INNER join Usuarios on
+        from Consultas INNER join Usuarios on CedulaDocente = CedulaUsuario where CedulaAlumno = ? ;
         SQL;
-        if ($tipo == '0') {
-            $sql .= " CedulaDocente = CedulaUsuario";
-        } else {
-            $sql .= " CedulaAlumno = CedulaUsuario";
-        }
-        $sql .= " where CedulaAlumno = ? or CedulaDocente = ?;";
-        $sentencia = $conexion->prepare($sql);
+        $sentencia = $this->conexion->prepare($sql);
         $sentencia->bind_param(
-            "ii",
-            $cedula,
+            "i",
             $cedula
         );
         $sentencia->execute();
@@ -125,21 +109,15 @@ class ConsultaModelo extends Modelo {
         while ($consulta = mysqli_fetch_object($resultado)) {
             array_push($consultas, $consulta);
         }
-        $conexion->close();
         return $consultas;
     }
 
-    public function TraerDatos($tipo) {
+    public function TraerDatos() {
         $sql = <<<SQL
         select NombreUsuario,ApellidoUsuario,Tema,FechaYHora,Estado 
-        from Consultas INNER join Usuarios on
+        from Consultas INNER join Usuarios on Consultas.CedulaDocente = Usuarios.CedulaUsuario
+        where CedulaAlumno = ? and CedulaDocente = ? and IdConsulta = ?;
         SQL;
-        if ($tipo == '0') {
-            $sql .= " Consultas.CedulaDocente = Usuarios.CedulaUsuario";
-        } else {
-            $sql .= " Consultas.CedulaAlumno = Usuarios.CedulaUsuario";
-        }
-        $sql .= " where CedulaAlumno = ? and CedulaDocente = ? and IdConsulta = ?";
         $this->sentencia = $this->conexion->prepare($sql);
         $this->sentencia->bind_param(
             "iii",

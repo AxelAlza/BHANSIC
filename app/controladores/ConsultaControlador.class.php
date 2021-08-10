@@ -1,5 +1,5 @@
 <?php
-
+require '../framework/autoloader.php';
 class ConsultaControlador {
 
     static ConsultaModelo $consulta;
@@ -29,20 +29,18 @@ class ConsultaControlador {
             self::$consulta->IdConsulta = intval($_POST['IdConsulta']);
             self::$consulta->Contenidos = $_POST['respuesta'];
             self::$consulta->AñadirRespuesta($_SESSION['USER']->CedulaUsuario);
-            if ($_SESSION['USER']->Tipo == "1") {
-                self::$consulta->ActualizarEstado();
-            }
             Informes::InformarExito("Se envio la respuesta", "DetalleConsulta");
         } catch (Exception $e) {
             Informes::InformarErrores("No se pudo enviar la respuesta", "DetalleConsulta");
         }
     }
 
-    public static function ListaConsultas() {
+    public static function ListarConsultas() {
         $html = "";
         $CedulaDeUsuario = $_SESSION['USER']->CedulaUsuario;
         $Tipo = $_SESSION['USER']->Tipo;
-        $consultas = ConsultaModelo::TraerConsultas($CedulaDeUsuario, $Tipo);
+        $Con = new ConsultaModelo();
+        $consultas = $Con->TraerConsultas($CedulaDeUsuario, $Tipo);
         foreach ($consultas as $consulta) {
             $html = <<<HTML
             <tr>
@@ -57,12 +55,11 @@ class ConsultaControlador {
                 </td>
             </tr>
             HTML;
-            echo $html;
+            return $html;
         }
-        return $consultas;
     }
 
-    public static function DetalleConsulta() {
+    public static function SacarConsultaViaGET() {
         try {
             self::$consulta = new ConsultaModelo();
             self::$consulta->CedulaAlumno = intval($_GET['CedulaAlumno']);
@@ -84,39 +81,34 @@ class ConsultaControlador {
         <label for ="Select">Destinatario</label> 
         <select id ="Select" name ="CedulaDocente" class="form-select" aria-label="Seleccionar">
         HTML;
-        foreach (DocenteModelo::TraerDocentes() as $docente) {
+        $Doc = new DocenteModelo();
+        foreach ($Doc->TraerDocentes() as $docente) {
             $html .= "\n<option value=' {$docente->CedulaUsuario} '> {$docente->NombreUsuario} {$docente->ApellidoUsuario} </option>";
         }
         $html .= <<<HTML
         </select>
         </div>
         HTML;
-        echo $html;
+        return $html;
     }
 
-    public static function DisplayInfoConsulta() {
-
-        if ($_SESSION['USER']->Tipo == "0") {
-            $d = "Para";
-        } else {
-            $d = "De";
-        }
+    public static function DisplayInfoConsulta() {    
         $consulta = self::$consulta;
         $html = <<<HTML
-     
         <h5> Tema : $consulta->Tema </h5>
-        <h6> {$d}: {$consulta->Emisor} | {$consulta->FechaYHora} </h6>
+        <h6>Para : {$consulta->Emisor} | {$consulta->FechaYHora} </h6>
         <input hidden name ="CedulaAlumno" value="{$consulta->CedulaAlumno}">
         <input hidden name ="CedulaDocente" value="{$consulta->CedulaDocente}">
         <input hidden name ="IdConsulta" value="{$consulta->IdConsulta}">
         HTML;
-        echo $html;
+        return $html;
     }
 
     public static function DisplayContenidos() {
         $consulta = self::$consulta;
+        $html = "";
         foreach ($consulta->Contenidos as $content) {
-            $html = <<<HTML
+            $html .= <<<HTML
                 <div class = "container">
                 <img src="{$content->FotoUsuario}" class="img-thumbnail img-fluid" style="height: 50px; width:50px;">
                 <label>{$content->FechaYHoraEmision}</label>
@@ -125,7 +117,7 @@ class ConsultaControlador {
                 </div>
          
             HTML;
-            echo $html;
         }
+        return $html;
     }
 }

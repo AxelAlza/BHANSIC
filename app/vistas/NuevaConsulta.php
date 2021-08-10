@@ -1,21 +1,12 @@
 <?php
-require '../utils/autoloader.php';
+require '../framework/autoloader.php';
 $usuario = $_SESSION['USER'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/static/css/bootstrap.min.css" rel="stylesheet" />
-  <title>Consultas</title>
-</head>
-
+<?php generarHtml('header', 'DetalleConsulta'); ?>
 <body>
   <?php generarHtml("NavBar", null); ?>
-
   <div class="container">
     <?php Informes::EspacioInformes($parametros); ?>
     <form method="POST">
@@ -26,7 +17,7 @@ $usuario = $_SESSION['USER'];
         </div>
       </div>
       <div class="row p-3">
-        <?php ConsultaControlador::DropDownDocentes(); ?>
+        <?php echo $parametros['DropdownDocentes'];?>
       </div>
       <div class="row p-3">
         <div class="mb-3">
@@ -37,8 +28,7 @@ $usuario = $_SESSION['USER'];
       <button class="btn btn-primary" type="submit">Hacer consulta</button>
     </form>
   </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="/static/js/bootstrap.bundle.min.js"></script>
+  <?php generarHtml('importarjs', null); ?>
 </body>
 
 </html>

@@ -20,12 +20,12 @@ USE `mydb` ;
 DROP TABLE IF EXISTS `mydb`.`Usuarios` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`Usuarios` (
-  `CedulaUsuario` DECIMAL(8,0) NOT NULL,
+  `CedulaUsuario` DECIMAL(8,0) NOT NULL CHECK (CHAR_LENGTH(CAST('CedulaUsuario' AS CHAR)) = 8),
   `NombreUsuario` VARCHAR(45) NOT NULL,
   `ApellidoUsuario` VARCHAR(45) NOT NULL,
   `ContraseñaUsuario` VARCHAR(255) NOT NULL,
-  `FotoUsuario` VARCHAR(45) NULL DEFAULT NULL,
-  `AvatarUsuario` VARCHAR(45) NULL DEFAULT NULL,
+  `FotoUsuario` VARCHAR(45) DEFAULT NULL,
+  `NicknameUsuario` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`CedulaUsuario`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

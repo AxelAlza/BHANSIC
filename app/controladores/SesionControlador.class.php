@@ -1,5 +1,5 @@
 <?php
-require '../utils/autoloader.php';
+require '../framework/autoloader.php';
 
 class SesionControlador {
 
